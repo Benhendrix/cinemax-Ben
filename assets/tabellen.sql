@@ -1,3 +1,4 @@
+-- SQLite
 
 DROP TABLE IF EXISTS vertoningen
 DROP TABLE IF EXISTS films
