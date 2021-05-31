@@ -7,21 +7,21 @@ DROP TABLE IF EXISTS tickets
 CREATE TABLE IF NOT EXISTS vertoningen (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     zaal TEXT NOT NULL,
-    afspeelmoment BLOB NOT NULL,
+    afspeelmoment TEXT NOT NULL,
     pauze INTEGER NOT NULL?
     3d INTEGER NOT NULL
+    film_id INTEGER,
+    FOREIGN KEY (film_id) REFERENCES films (id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS films (
     id INTEGER PRIMARY KEY  AUTOINCREMENT?
     titel TEXT NOT NULL,
-    speelduur BLOB NOT NULL,
+    speelduur TEXT NOT NULL,
     genre TEXT NOT NULL,
     kinderen INTEGER NOT NULL,
     omschrijving TEXT NOT NULL,
-    imdb TEXT NOT NULL,
-    vertoning_film_id INTEGER,
-    FOREIGN KEY (vertoning_film_id) REFERENCES vertoningen(id) ON DELETE CASCADE
+    imdb TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS tickets (
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     titel TEXT NOT NULL,
     kind INTEGER NOT NULL,
     volwassen INTEGER NOT NULL,
-    totaal FLOAT NOT NULL,
-    vertoning_ticket_id INTEGER,
-    FOREIGN KEY (vertoning_ticket_id) REFERENCES vertoningen(id) ON DELETE CASCADE
+    totaal REAL NOT NULL,
+    vertoning_id INTEGER,
+    FOREIGN KEY (vertoning_id) REFERENCES vertoningen(id) ON DELETE SET NULL
 );
