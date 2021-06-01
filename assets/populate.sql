@@ -17,8 +17,7 @@ VALUES ("Zaal 1","11:00:00",1,0,1),
        ("Zaal 2","14:00:00",1,0,3),
        ("Zaal 2","17:00:00",1,0,3),
        ("Zaal 2","20:00:00",1,1,4),
-       ("Zaal 2","23:00:00",0,0,4),
-
+       ("Zaal 2","23:00:00",0,0,4)
 ;
 INSERT INTO tickets (kind,volwassen,totaal,vertoning_id)
 VALUES (1,1,0.00,1),
