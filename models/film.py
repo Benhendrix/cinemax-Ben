@@ -1,4 +1,4 @@
-class film:
+class Film:
     def __init__(self,titel,speelduur,genre,kinderen,omschrijving,imdb,id=None):
         self.titel = titel
         self.speelduur = speelduur

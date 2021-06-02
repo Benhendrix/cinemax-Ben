@@ -1,4 +1,4 @@
-class ticket:
+class Ticket:
     def __init__(self,kind,volwassen,totaal,vertoning_id,id=None):
         self.kind = kind
         self.volwassen = volwassen
