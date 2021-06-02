@@ -1,9 +1,9 @@
 class ticket:
-    def __init__(self,kind,volwassen,totaal,vertoningID,id=None):
+    def __init__(self,kind,volwassen,totaal,vertoning_id,id=None):
         self.kind = kind
         self.volwassen = volwassen
         self.totaal = totaal
-        self.vertoningID = vertoningID
+        self.vertoning_id = vertoning_id
         self._id = id
     
     @property

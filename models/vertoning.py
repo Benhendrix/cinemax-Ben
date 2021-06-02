@@ -1,10 +1,10 @@
 class vertoning:
-    def __init__(self,zaal,afspeelmoment,pauze,drieD,filmID,id=None):
+    def __init__(self,zaal,afspeelmoment,pauze,drie_d,film_id,id=None):
         self.zaal = zaal
         self.afspeelmoment = afspeelmoment
         self.pauze = pauze
-        self.drieD = drieD
-        self.filmID = filmID
+        self.drie_d = drie_d
+        self.film_id = film_id
         self._id = id
     
     @property
