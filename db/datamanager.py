@@ -6,7 +6,7 @@ from db.database import dbconn
 class Datamanager:
     def alle_films(self):
         with dbconn() as cur:
-            sql = "SELECT * FROM films"
+            sql = "SELECT * FROM films ORDER BY titel ASC"
             cur.execute(sql)
             rijen = cur.fetchall()
             
