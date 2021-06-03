@@ -1,3 +1,4 @@
+
 class Vertoning:
     def __init__(self,zaal,afspeelmoment,pauze,drie_d,film_id,id=None):
         self.zaal = zaal

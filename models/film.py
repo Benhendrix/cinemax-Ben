@@ -1,5 +1,3 @@
-from _typeshed import IdentityFunction
-
 
 class Film:
     def __init__(self,titel,speelduur,genre,kinderen,omschrijving,imdb,id=None):
@@ -17,7 +15,14 @@ class Film:
     
     @classmethod
     def from_dict(cls,dict):
-        naam = dict["naam"]
-        id = dict["id"]
-        return cls(naam,id)
+        titel = dict["titel"]
+        speelduur = dict["speelduur"]
+        genre = dict["genre"]
+        kinderen = dict["kinderen"]
+        omschrijving = dict["omschrijving"]
+        imdb = dict["imdb"]
+        id =dict["id"]
+
+        return cls(titel,speelduur,genre,kinderen,omschrijving,imdb,id)
+        
     
