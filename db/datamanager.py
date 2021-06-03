@@ -30,4 +30,11 @@ class Datamanager:
         with dbconn() as cur:
             sql = "INSERT INTO films (titel,speelduur,genre,kinderen,omschrijving,imdb) VALUES (?, ?, ?, ?, ?, ?)"
             cur.execute(sql, [film.titel,film.speelduur,film.genre,film.kinderen,film.omschrijving,film.imdb])
-    
+
+    def film_verwijderen(self, id):
+        with dbconn() as cur:
+            if id:
+                sql = "DELETE FROM films WHERE id = ?"
+                cur.execute(sql, [id])
+            else:
+                raise ValueError
