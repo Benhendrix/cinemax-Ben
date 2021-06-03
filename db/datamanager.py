@@ -1,35 +1,48 @@
-import sqlite3
-from sqlite3 import Error
-from sqlite3.dbapi2 import Cursor
+from models.film import Film
+from models.ticket import Ticket
+from models.vertoning import Vertoning
+from db.database import dbconn
+"""
+class Datamanager:
 
+    def alle_films(self):
+        with dbconn() as cur:
+            sql = "SELECT * FROM films"
+            cur.execute(sql)
+            rijen = cur.fetchall()
+            films = []
+            for rij in rijen:
+                films.append(Film(rij))
+            return rijen
+"""
+class Datamanager:
 
-class dbconn():
-    DB_PATH = "db/bioscoop.db"
+    def alle_films(self):
+        with dbconn() as cur:
+            sql = "SELECT * FROM films"
+            cur.execute(sql)
+            rijen = cur.fetchall()
+            """
+            films = []
+            for rij in rijen:
+                films.append(Film.from_dict(rij))
+            """
+            films = [Film.from_dict(rij)for rij in rijen]
 
-    def __init__(self) -> None:
-        self.create_connection()
+            return films
+    
+    def film_by_id(self,id):
+        with dbconn() as cur:
+            sql = "SELECT * FROM films WHERE id = ?"
+            cur.execute(sql,[id])
+            rij = cur.fetchone()
+            """
+            films = []
+            for rij in rijen:
+                films.append(Film.from_dict(rij))
+            """
+            
+            film = Film.from_dict(rij)
 
-    def __enter__(self) -> Cursor:
-        self.create_connection()
-        self.cursor = self.conn.cursor()
-        return self.cursor
-
-    def __exit__(self, exc_type, exc_value, traceback) -> None:
-        self.conn.commit()
-        self.conn.close()
-
-    def create_connection(self) -> None:
-        try:
-            self.conn = sqlite3.connect(self.DB_PATH)
-            self.conn.execute("PRAGMA foreign_keys = 1")
-            self.conn.row_factory = sqlite3.Row
-        except Error as e:
-            print("Fout bij connectie met databank: ", e)
-
-    def close_connection(self) -> None:
-        self.conn.close()
-
-    def execute_script(self, script: str) -> None:
-        with open(script) as sql_file:
-            query = sql_file.read()
-            self.conn.executescript(query)
+            return film
+    
