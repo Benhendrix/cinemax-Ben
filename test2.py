@@ -1,12 +1,12 @@
-import sqlite3
 from db.datamanager import Datamanager
 from prettytable import PrettyTable
 
 dm = Datamanager()
 
+
+# Tonen van alle films
 table = PrettyTable()
 table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
-# Tonen van alle films
 print("="*40)
 films = dm.alle_films()
 for film in films:
