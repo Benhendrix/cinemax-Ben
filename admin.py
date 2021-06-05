@@ -114,10 +114,12 @@ while True:
                     print("")
                     if keuze2 == "0":
                         break
+
                     if keuze2 == "1":
                         keuze_id = input("Geef een id nummer van een film in: ")
                         print("")
                         film_by_id = dm.film_by_id(keuze_id)
+
                         if film_by_id:
                             table2 = PrettyTable()
                             table2.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
@@ -125,11 +127,17 @@ while True:
                             print(table2)
                         keuze = input("Duw op een toets om verder te gaan...")
                         print("")
+
                     if keuze2 == "2":
                         keuze_ingave = input("Geef letters in om te zoeken in de database naar films: ")
                         print("")
                         films_zoek_op_ingave = dm.zoek_film_op_ingave(keuze_ingave)
-                        
+                        table3 = PrettyTable()
+                        table3.field_names =["id","titel","speelduur","genre","kinderen","imdb"]
+
                         for film in films_zoek_op_ingave:
-                            print(film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb)
+                            table3.add_row([film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb])
+                        print(table3)
+                        print("")
+                        keuze = input("Duw op een toets om verder te gaan...")
 
