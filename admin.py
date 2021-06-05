@@ -58,9 +58,7 @@ while True:
                     print(table)
                     break
                 keuze = input("Duw op een toets om verder te gaan...")
-                
                 print("")
-            
             # Toon alle films aan de admin
             if keuze =="2":
                 while True:
@@ -70,32 +68,47 @@ while True:
                     films = dm.alle_films_alfa()
                     for film in films:
                         table.add_row([film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb])
-                    print(colored("LIJST VAN FILMS IN DATABASE","yellow"))
+                    print(colored("LIJST VAN FILMS IN DATABASE ALFABETISCH","yellow"))
                     print(table)
                     break
                 keuze = input("Duw op een toets om verder te gaan...")
-                
                 print("")
-
             # Voeg een film toe aan de klasse film en aan de database
             if keuze =="3":
                 while True:
 
                     # Geef de atributen in van een instantie van een film die word gemaakt
-                    print(colored("Film toevoegen","yellow"))
+                    print(colored("Je kunt nu een film toevoegen aan de database","yellow"))
+                    print("")
                     titel = input("Geef de titel van de film in: ")
-                    speelduur = int(input("Geef de speelduur in minuten in als een getal: "))
+                    try:
+                        speelduur = int(input("Geef de speelduur in minuten in als een getal: "))
+                    except ValueError:
+                        print(colored("GEEN GELDIGE INPUT","red"))
+                        print(colored("Terug naar film toevoegen!!!","red"))
+                        print("")
+                        continue
+
                     genre = input("Geef een genre of genres in gescheiden door komma's: ")
-                    kinderen = int(input("Geef een 0 voor niet toegelaten of een 1 voor wel toegelaten: "))
+                    kinderen = int(input("Geef een 0 voor niet toegelaten voor kinderen of een 1 voor wel toegelaten: "))
                     omschrijving = input("Geef de omschrijving van de film in: ")
                     imdb = input("Geef een geldig imdb nummer in: ")
+                    print("")
+                    bevestiging = input("Ben je zeker of je de film wil toevoegen J/N: ")
+                    print("")
+                    if bevestiging.capitalize() == "J":
+                        # Instantie van de film maken
+                        nieuwe_film = Film(titel,speelduur,genre,kinderen,omschrijving,imdb)
 
-                    # Instantie van de film maken
-                    nieuwe_film = Film(titel,speelduur,genre,kinderen,omschrijving,imdb)
-
-                    # Film toevoegen aan de database
-                    dm.film_toevoegen(nieuwe_film)
-                    break
+                        # Film toevoegen aan de database
+                        dm.film_toevoegen(nieuwe_film)
+                        print(colored("De film","yellow"),"("+nieuwe_film.titel+")",colored("is toegevoegd aan de database","yellow"))
+                        print("")
+                        break
+                    else:
+                        print(colored("De film is niet toegevoegd","yellow"))
+                        print("")
+                        break
                 keuze = input("Duw op een toets om verder te gaan...")
                 print("")
 
@@ -110,12 +123,12 @@ while True:
                     print(colored("0","yellow",),"Terug naar hoofdmenu")
                     print("="*40)
                     print("")
-                    keuze2 = input("Kies een item via een van de cijfers: ")
+                    keuze = input("Kies een item via een van de cijfers: ")
                     print("")
-                    if keuze2 == "0":
+                    if keuze == "0":
                         break
 
-                    if keuze2 == "1":
+                    if keuze == "1":
                         keuze_id = input("Geef een id nummer van een film in: ")
                         print("")
                         film_by_id = dm.film_by_id(keuze_id)
@@ -128,7 +141,7 @@ while True:
                         keuze = input("Duw op een toets om verder te gaan...")
                         print("")
 
-                    if keuze2 == "2":
+                    if keuze == "2":
                         keuze_ingave = input("Geef letters in om te zoeken in de database naar films: ")
                         print("")
                         films_zoek_op_ingave = dm.zoek_film_op_ingave(keuze_ingave)
