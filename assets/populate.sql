@@ -8,16 +8,16 @@ VALUES ("Spirited Away",125,"Animatie, Familie, Fantasie",1,"Tijdens de verhuizi
        ("Fear and Loathing in Las Vegas",118,"Avontuur, Drama, Komedie",0,"Journalist Raoul Duke en zijn geflipte advocaat Dr. Gonzo reizen af naar Las Vegas om een sportevenement te verslaan. Met het voorschot dat ze hebben gekregen gooien ze hun hele kofferbak vol met allerlei soorten drugs en beginnen ze aan een psychedelische roadtrip, op zoek naar de 'American Dream'.","tt0120669")
 ;
 INSERT INTO vertoningen (zaal,afspeelmoment,pauze,drie_d,film_id)
-VALUES ("Zaal 1","11:00:00",1,0,1),
-       ("Zaal 1","14:00:00",1,0,1),
-       ("Zaal 1","17:00:00",1,0,1),
-       ("Zaal 1","20:00:00",1,1,2),
-       ("Zaal 1","23:00:00",0,0,2),
-       ("Zaal 2","11:00:00",1,0,3),
-       ("Zaal 2","14:00:00",1,0,3),
-       ("Zaal 2","17:00:00",1,0,3),
-       ("Zaal 2","20:00:00",1,1,4),
-       ("Zaal 2","23:00:00",0,0,4)
+VALUES ("Zaal 1","2021-05-17 11:00:00",1,0,1),
+       ("Zaal 1","2021-05-17 14:00:00",1,0,1),
+       ("Zaal 1","2021-05-17 17:00:00",1,0,1),
+       ("Zaal 1","2021-05-17 20:00:00",1,1,2),
+       ("Zaal 1","2021-05-17 23:00:00",0,0,2),
+       ("Zaal 2","2021-05-17 11:00:00",1,0,3),
+       ("Zaal 2","2021-05-17 14:00:00",1,0,3),
+       ("Zaal 2","2021-05-17 17:00:00",1,0,3),
+       ("Zaal 2","2021-05-17 20:00:00",1,1,4),
+       ("Zaal 2","2021-05-17 23:00:00",0,0,4)
 ;
 INSERT INTO tickets (kind,volwassen,totaal,vertoning_id)
 VALUES (2,2,0.00,1),

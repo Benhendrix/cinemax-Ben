@@ -73,10 +73,10 @@ while True:
                     break
                 keuze = input("Duw op een toets om verder te gaan...")
                 print("")
-            # Voeg een film toe aan de klasse film en aan de database
+            # Voeg een film toe aan de database
             if keuze =="3":
                 while True:
-                    # Geef de atributen in van een instantie van een film die word gemaakt
+                    # Geef de atributen in om een instantie te makken binnen Film en om aan de database toe te voegen
                     print(colored("Je kunt nu een film toevoegen aan de database","yellow"))
                     print("")
                     titel = input("Geef de titel van de film in: ")
@@ -150,4 +150,4 @@ while True:
                         print(table3)
                         print("")
                         keuze = input("Duw op een toets om verder te gaan...")
-
+           

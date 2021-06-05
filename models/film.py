@@ -9,6 +9,9 @@ class Film:
         self.imdb = imdb
         self._id = id
 
+    def __str__(self):
+        return self.titel,self.genre,self.omschrijving,self.imdb
+
     # ID eigenschap
     @property
     def id(self):
