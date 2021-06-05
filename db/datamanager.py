@@ -6,6 +6,16 @@ from db.database import dbconn
 class Datamanager:
     def alle_films(self):
         with dbconn() as cur:
+            sql = "SELECT * FROM films"
+            cur.execute(sql)
+            rijen = cur.fetchall()
+            
+            films = [Film.from_dict(rij) for rij in rijen]
+
+            return films
+            
+    def alle_films_alfa(self):
+        with dbconn() as cur:
             sql = "SELECT * FROM films ORDER BY titel ASC"
             cur.execute(sql)
             rijen = cur.fetchall()
@@ -38,3 +48,14 @@ class Datamanager:
                 cur.execute(sql, [id])
             else:
                 raise ValueError
+    
+    def zoek_film_op_ingave(self, zoekterm):
+        with dbconn() as cur:
+            ingave = f"%{zoekterm}%"
+            sql = "SELECT * FROM films WHERE titel LIKE ? OR genre LIKE ? OR omschrijving LIKE ?"
+            cur.execute(sql, [ingave,ingave,ingave])
+            rijen = cur.fetchall()
+
+            films = [Film.from_dict(rij) for rij in rijen]
+            return films
+    
