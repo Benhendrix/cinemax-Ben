@@ -1,8 +1,9 @@
 from models.film import Film
+from models.vertoning import Vertoning
 from db.datamanager import Datamanager
 
 dm = Datamanager()
-
+"""
 # Tonen van alle films
 print("="*40)
 films = dm.alle_films()
@@ -47,3 +48,10 @@ dm.film_verwijderen(6)
 films = dm.alle_films()
 for film in films:
     print(film.titel)
+"""
+# Tonen van alle vertoningen
+print("="*40)
+vertoningen = dm.alle_vertoningen()
+for vertoning in vertoningen:
+    print(vertoning.id,vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id)
+print("="*40)

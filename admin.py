@@ -7,13 +7,10 @@ from db.datamanager import Datamanager
 from prettytable import PrettyTable
 from colorama import init
 from termcolor import colored
-
 # init() voor colorama te gebruiken
 init()
-
 # Variabele aangemaakt voor de datamanager
 dm = Datamanager()
-
 # Menu voor de admin
 while True:
     print("")
@@ -26,6 +23,7 @@ while True:
     print("")
     keuze = input("Kies een item uit het menu via een cijfer: ")
     print("")
+    # Beheer van de films
     if keuze == "1":
         while True:
             print("")
@@ -46,12 +44,16 @@ while True:
             # Toon alle films aan de admin
             if keuze =="1":
                 while True:
+                    # Maak de tabel aan met PrettyTabel
                     table = PrettyTable()
+                    # Maak de kolom namen aan binnen de tabel
                     table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
-                    
+                    # Haalt de data op met de datamanger
                     films = dm.alle_films()
+                    # Voeg de rijen toe aan de tabel
                     for film in films:
                         table.add_row([film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb])
+                    # Print de tabel af
                     print("")
                     print(colored("LIJST VAN FILMS IN DATABASE","yellow"))
                     print(table)
@@ -63,6 +65,7 @@ while True:
                 while True:
                     table = PrettyTable()
                     table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
+                    # Haalt de data op maar dan alfabetisch
                     films = dm.alle_films_alfa()
                     for film in films:
                         table.add_row([film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb])
@@ -75,12 +78,13 @@ while True:
             # Voeg een film toe aan de klasse film en aan de database
             if keuze =="3":
                 while True:
-                    # Geef de atributen in van een instantie van een film die word gemaakt
+                    # Geef de atributen in van een instantie van een film klasse
                     print("")
                     print("="*50)
                     print(colored("Je kunt nu een film toevoegen aan de database","yellow"))
                     print("="*50)
                     print("")
+                    # Controle of er een titel werdt ingegeven
                     while True:  
                         titel = input("Geef de titel van de film in: ")
                         if titel == "":
@@ -94,7 +98,7 @@ while True:
                         else:
                             break
                     print("")
-                    # Controle op het integer getal
+                    # Controle op het integer getal en of de speelduur leeg is
                     while True:
                         try:
                             speelduur = int(input("Geef het speelduur in minuten in als een getal: "))
@@ -113,8 +117,20 @@ while True:
                             print(colored("Je hebt 0 minuten ingegeven!","red"))
                             print("="*50)
                             print("")
+                            continue
+                        if speelduur < 30:
+                            print("")
+                            print("="*50)
+                            print(colored("De speelduur is nogal kort, onder de 30 min!","red"))
+                            bevestiging = input("Ben je zeker van de speelduur J/N: ")
+                            print("="*50)
+                            print("")
+                            if bevestiging.capitalize() == "J":
+                                break
+                            else:
+                                continue 
                         else:
-                            break 
+                            break    
                     while True:  
                         genre = input("Geef een genre of genres in: ")
                         print("")
@@ -172,6 +188,10 @@ while True:
                             print("="*50)
                             print("")
                             continue
+                    table = PrettyTable()
+                    table.field_names =["titel","speelduur","genre","kinderen","omschrijving","imdb"]
+                    table.add_row([titel,speelduur,genre,kinderen,omschrijving,imdb])
+                    print(table)
                     bevestiging = input("Ben je zeker of je de film wil toevoegen J/N: ")
                     print("")
                     if bevestiging.capitalize() == "J":
@@ -213,17 +233,27 @@ while True:
                     if keuze == "1":
                         keuze_id = input("Geef een id nummer van een film in: ")
                         print("")
-                        film_by_id = dm.film_by_id(keuze_id)
-
-                        if film_by_id:
-                            table = PrettyTable()
-                            table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
-                            table.add_row([film_by_id.id,film_by_id.titel,film_by_id.speelduur,film_by_id.genre,film_by_id.kinderen,film_by_id.imdb])
-                            print("")
-                            print(table)
-                            print("")
-                        keuze = input("Duw op een toets om verder te gaan...")
-                        print("")
+                        while True:
+                            film_by_id = dm.film_by_id(keuze_id)
+                            if film_by_id:
+                                table = PrettyTable()
+                                table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
+                                table.add_row([film_by_id.id,film_by_id.titel,film_by_id.speelduur,film_by_id.genre,film_by_id.kinderen,film_by_id.imdb])
+                                print("")
+                                print(table)
+                                print("")
+                                break
+                            else:
+                                print("")
+                                print("="*50)
+                                print(colored("Het id is niet gevonden in de database!","red"))
+                                print("="*50)
+                                print("")
+                                keuze_id = input("Geef een id nummer van een film in: ")
+                                print("")
+                                continue
+                    keuze = input("Duw op een toets om verder te gaan...")
+                    print("")
                     # Zoeken op letteringave
                     if keuze == "2":
                         keuze_ingave = input("Geef letters in om te zoeken in de database naar films: ")
@@ -250,19 +280,30 @@ while True:
                     print("")
                     keuze_verwijderen = input("Geef een id in om de film te verwijderen: ")
                     print("")
-                    film_tonen = dm.film_by_id(keuze_verwijderen)
-                    if film_tonen:
-                            table = PrettyTable()
-                            table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
-                            table.add_row([film_tonen.id,film_tonen.titel,film_tonen.speelduur,film_tonen.genre,film_tonen.kinderen,film_tonen.imdb])
+                    while True:
+                        film_tonen = dm.film_by_id(keuze_verwijderen)
+                        if film_tonen:
+                                table = PrettyTable()
+                                table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
+                                table.add_row([film_tonen.id,film_tonen.titel,film_tonen.speelduur,film_tonen.genre,film_tonen.kinderen,film_tonen.imdb])
+                                print("")
+                                print(table)
+                                print("")
+                                break
+                        else:
                             print("")
-                            print(table)
+                            print("="*50)
+                            print(colored("Het id is niet gevonden in de database!","red"))
+                            print("="*50)
                             print("")
+                            keuze_verwijderen = input("Geef een id in om de film te verwijderen: ")
+                            print("")
+                            continue
                     bevestiging = input("Ben je zeker of je de film wilt verwijderen J/N: ")
                     print("")
                     # Vragen aan de admin of hij zeker is voor het toevoegen van de film aan de database hierbij hoort ook dat de instantie wordt aangemaakt binnen de klasse Film
                     if bevestiging.capitalize() == "J":
-                        # Film verwijderen uit de database
+                        # Film verwijderen uit de database na bevestiging
                         dm.film_verwijderen(keuze_verwijderen)
                         print("")
                         print("="*50)
@@ -271,6 +312,7 @@ while True:
                         print("")
                         break
                     else:
+                        # Film niet verwijderen als J of j niet wordt gebruikt
                         print("")
                         print("="*50)
                         print(colored("De film is niet verwijderd","yellow"))
@@ -279,3 +321,40 @@ while True:
                         break
                 keuze = input("Duw op een toets om verder te gaan...")
                 print("")
+    if keuze == "2":
+        while True:
+            print("")
+            print("="*50)
+            print(colored("BEHEER VERTONINGEN","yellow"))
+            print(colored("1","yellow",),"Lijst van alle vertoningen in de database")
+            print(colored("2","yellow",),"Lijst van alle vertoningen van vandaag")
+            print(colored("3","yellow",),"Vertoning toevoegen")
+            print(colored("4","yellow",),"Vertoning verwijderen")
+            print(colored("0","yellow",),"Terug naar het hoofdmenu")
+            print("="*50)
+            print("")
+            keuze = input("Kies een item uit het menu via een cijfer: ")
+            # Terug na vorig menu gaan
+            if keuze == "0":
+                break
+            # Toon alle vertoningen in de database
+            if keuze == "1":
+                while True:
+                    table = PrettyTable()
+                    table.field_names = ["id","zaal","afspeelmoment","pauze","drie_d","film_id"]
+                    vertoningen = dm.alle_vertoningen()
+                    for vertoning in vertoningen:
+                        table.add_row([vertoning.id,vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id])
+                    print("")  
+                    print(colored("LIJST VAN VERTONINGEN IN DATABASE","yellow"))
+                    print(table)
+                    print("")
+                    break  
+                keuze = input("Duw op een toets om verder te gaan...")
+            # Toon alle vertoningen van vandaag
+            if keuze == "2":
+                pass
+            if keuze == "3":
+                pass
+            if keuze == "4":
+                pass

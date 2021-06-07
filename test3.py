@@ -4,7 +4,6 @@ from models.vertoning import Vertoning
 from db.database import dbconn
 
 class Datamanager:
-    # Methodes voor Films
     def alle_films(self):
         with dbconn() as cur:
             sql = "SELECT * FROM films"
@@ -58,8 +57,9 @@ class Datamanager:
             rijen = cur.fetchall()
 
             films = [Film.from_dict(rij) for rij in rijen]
+
             return films
-    # Methodes voor vertoningen
+    
     def alle_vertoningen(self):
         with dbconn() as cur:
             sql = "SELECT * FROM vertoningen"
