@@ -17,7 +17,6 @@ dm = Datamanager()
 while True:
     print("")
     print("="*50)
-    print(colored("----------CINEMAX----------","blue"))
     print(colored("ADMIN MENU","yellow"))
     print(colored("1","yellow",),"BEHEER FILMS")
     print(colored("2","yellow",),"BEHEER VERTONINGEN")
@@ -27,9 +26,10 @@ while True:
     print("")
     keuze = input("Kies een item uit het menu via een cijfer: ")
     print("")
+#BEHEER FILMS------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     if keuze == "0":
         break
-#BEHEER FILMS------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
     if keuze == "1":
         while True:
             print("")
@@ -65,8 +65,7 @@ while True:
                     print(table)
                     print("")
                     break
-                print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                input()
+                keuze = input("Duw op een toets om verder te gaan...")
             # Toon alle films aan de admin
             if keuze =="2":
                 while True:
@@ -81,8 +80,7 @@ while True:
                     print(table)
                     print("")
                     break
-                print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                input()
+                keuze = input("Duw op een toets om verder te gaan...")
             # Voeg een film toe aan de klasse film en aan de database
             if keuze =="3":
                 while True:
@@ -220,8 +218,8 @@ while True:
                         print("="*50)
                         print("")
                         break
-                print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                input()
+                keuze = input("Duw op een toets om verder te gaan...")
+                print("")
             # Zoek een film op op id of via letteringave
             if keuze == "4":
                 while True:
@@ -260,8 +258,8 @@ while True:
                                 keuze_id = input("Geef een id nummer van een film in: ")
                                 print("")
                                 continue
-                        print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                        input()
+                        keuze = input("Duw op een toets om verder te gaan...")
+                    print("")
                     # Zoeken op letteringave
                     if keuze == "2":
                         keuze_ingave = input("Geef letters in om te zoeken in de database naar films: ")
@@ -275,8 +273,8 @@ while True:
                         print("")   
                         print(table)
                         print("")
-                        print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                        input()
+                        keuze = input("Duw op een toets om verder te gaan...")
+                        print("")
             # Een film verwijderen
             if keuze == "5":
                 while True:
@@ -327,8 +325,8 @@ while True:
                         print("="*50)
                         print("")
                         break
-                print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                input()
+                keuze = input("Duw op een toets om verder te gaan...")
+                print("")
 #BEHEER VERTONINGEN-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
     if keuze == "2":
         while True:
@@ -359,8 +357,7 @@ while True:
                     print(table)
                     print("")
                     break  
-                print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                input()
+                keuze = input("Duw op een toets om verder te gaan...")
             # Toon alle vertoningen van vandaag
             if keuze == "2":
                 while True:
@@ -376,10 +373,7 @@ while True:
                     print(table)
                     print("")
                     break
-                print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                input()
             if keuze == "3":
-                # Vertoning toevoegen
                 while True:
                     # Geef de atributen in van een instantie van een Vertoning klasse
                     print("")
@@ -405,8 +399,7 @@ while True:
                             print("")
                             continue
                     zaal = f"Zaal {str(zaalnummer)}"
-                    print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                    input()
+                    print(zaal)
                     # Controle of de datum correct is
                     while True:
                         print(colored("Geef nu het jaar, de maand en de tijd in voor het afspeelmoment.","yellow"))
@@ -472,11 +465,9 @@ while True:
                             else:
                                 break
                         break
-                    print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                    input()
                     # Samenstellen van de datum en tijd voor afspeelmoment
                     afspeelmoment = f"{jaar}-{maand}-{dag} {tijd}"
-                    # Controle of er een pauze is
+                    # Controle op pauze
                     while True:
                         pauze = input("Geef in of er een pauze is of niet (J/N): ")
                         if pauze == "":
@@ -492,9 +483,6 @@ while True:
                         else:
                             pauze = 0
                             break
-                    print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                    input()
-                    # Controle of er 3D is of niet
                     while True:
                         drie_d = input("Geef in of de vertoning in 3D is (J/N): ")
                         if drie_d == "":
@@ -509,8 +497,6 @@ while True:
                             break
                         else:
                             drie_d = 0
-                            break 
-                    print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                    input()                 
+                            break                  
             if keuze == "4":
                 pass
