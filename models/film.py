@@ -54,7 +54,7 @@ class Film:
         kinderen = dict["kinderen"]
         omschrijving = dict["omschrijving"]
         imdb = dict["imdb"]
-        id =dict["id"]
+        id = dict["id"]
 
         return cls(titel,speelduur,genre,kinderen,omschrijving,imdb,id)
         

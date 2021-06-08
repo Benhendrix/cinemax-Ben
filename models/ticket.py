@@ -10,3 +10,14 @@ class Ticket:
     @property
     def id(self):
         return self._id
+    
+    # Het maken van de instanties van de films.
+    @classmethod
+    def from_dict(cls,dict):
+        kind = dict["kind"]
+        volwassen = dict["volwassen"]
+        totaal = dict["totaal"]
+        vertoning_id = dict["vertoning_id"]
+        id = dict["id"]
+
+        return cls(kind,volwassen,vertoning_id,totaal,id)
