@@ -9,8 +9,25 @@ class Film:
         self.imdb = imdb
         self._id = id
 
+    # Dundermethodes 
     def __str__(self):
         return self.titel
+
+    def __str__(self):
+        return self.genre
+    
+    def __str__(self):
+        return self.omschrijving
+    
+    def __str__(self):
+        return self.imdb
+    
+    def __int__(self):
+        return self.speelduur
+    
+    def __int__(self):
+        return self.kinderen
+    
     # ID eigenschap
     @property
     def id(self):

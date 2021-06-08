@@ -48,7 +48,7 @@ dm.film_verwijderen(6)
 films = dm.alle_films()
 for film in films:
     print(film.titel)
-"""
+
 # Tonen van alle vertoningen
 print("="*40)
 vertoningen = dm.alle_vertoningen()
@@ -61,3 +61,8 @@ vertoningen = dm.alle_vertoningen_datum()
 for vertoning in vertoningen:
     print(vertoning.id,vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id)
 print("="*40)
+"""
+x="HH:MM:SS"
+print(len(x))
+print(x[2])
+print(x[5])

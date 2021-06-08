@@ -1,7 +1,6 @@
 # Imports
 import datetime
 from datetime import datetime
-from re import A
 import prettytable
 from models.film import Film
 from models.ticket import Ticket
@@ -26,7 +25,7 @@ while True:
     print("")
     keuze = input("Kies een item uit het menu via een cijfer: ")
     print("")
-    # Beheer van de films
+#BEHEER FILMS------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     if keuze == "1":
         while True:
             print("")
@@ -90,6 +89,7 @@ while True:
                     # Controle of er een titel werdt ingegeven
                     while True:  
                         titel = input("Geef de titel van de film in: ")
+                        print("")
                         if titel == "":
                             print("")
                             print("="*50)
@@ -100,7 +100,6 @@ while True:
                             continue
                         else:
                             break
-                    print("")
                     # Controle op het integer getal en of de speelduur leeg is
                     while True:
                         try:
@@ -255,7 +254,7 @@ while True:
                                 keuze_id = input("Geef een id nummer van een film in: ")
                                 print("")
                                 continue
-                    keuze = input("Duw op een toets om verder te gaan...")
+                        keuze = input("Duw op een toets om verder te gaan...")
                     print("")
                     # Zoeken op letteringave
                     if keuze == "2":
@@ -324,6 +323,7 @@ while True:
                         break
                 keuze = input("Duw op een toets om verder te gaan...")
                 print("")
+#BEHEER VERTONINGEN-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
     if keuze == "2":
         while True:
             print("")
@@ -370,6 +370,99 @@ while True:
                     print("")
                     break
             if keuze == "3":
-                pass
+                while True:
+                    # Geef de atributen in van een instantie van een Vertoning klasse
+                    print("")
+                    print("="*50)
+                    print(colored("Je kunt nu een vertoning toevoegen aan de database","yellow"))
+                    print("="*50)
+                    print("")
+                    # Controle of de zaal is ingegeven
+                    while True:  
+                        zaalnummer = int(input("Geef de zaalnummer in waar de vertoning wordt afgespeeld, er zijn 4 zalen: "))
+                        print("")
+                        if zaalnummer == int:
+                            break
+                        if zaalnummer <= 4:
+                            break
+                        else:
+                            print("")
+                            print("="*50)
+                            print(colored("GEEN GELDIGE INPUT voor de zaal!","red"))
+                            print(colored("Gelieve de zaalnummer in te geven, er zijn maar 5 zalen!","red"))
+                            print("="*50)
+                            print("")
+                            continue
+                    zaal = f"Zaal {str(zaalnummer)}"
+                    print(zaal)
+                    # Controle of de datum correct is
+                    while True:
+                        print(colored("Geef nu het jaar, de maand en de tijd in voor het afspeelmoment.","yellow"))
+                        print("")
+                        while True:
+                            jaar = input("Geef het jaar in bv 2020: ")
+                            print("")
+                            if jaar == "":
+                                print(colored("Geen jaar ingegeven!","red"))
+                                print("")
+                                continue
+                            if len(jaar) != 4:
+                                print(colored("Geef het jaar correct in!","red"))
+                                print("")
+                                continue
+                            else:
+                                break
+                        while True :
+                            maand = input("Geef de maand in cijfers bv 08: ")
+                            print("")
+                            if maand == "":
+                                print(colored("Geen maand ingegeven!","red"))
+                                print("")
+                                continue
+                            if len(maand) != 2:
+                                print(colored("Geef de maand correct in!","red"))
+                                print("")
+                                continue
+                            else:
+                                break
+                        while True :
+                            dag = input("Geef de dag in cijfers bv 04: ")
+                            print("")
+                            if dag == "":
+                                print(colored("Geen dag ingegeven!","red"))
+                                print("")
+                                continue
+                            if len(dag) != 2:
+                                print(colored("Geef de dag correct in!","red"))
+                                print("")
+                                continue
+                            else:
+                                break
+                        while True:
+                            tijd = input("Geef het tijdstip in wanneer de vetoning afspeelt (HH:MM:SS): ")
+                            print("")
+                            if tijd == "":
+                                print(colored("Geen tijd ingegeven!","red"))
+                                print("")
+                                continue
+                            if len(tijd) != 8:
+                                print(colored("Geef de tijd correct in (HH:MM:SS)!","red"))
+                                print("")
+                                continue
+                            if tijd[2] != ":":
+                                print(colored("Geef de tijd gescheiden door het (:) teken","red"))
+                                print("")
+                                continue
+                            if tijd[5] != ":":
+                                print(colored("Geef de tijd gescheiden door het (:) teken","red"))
+                                print("")
+                                continue
+                            else:
+                                break
+                        break
+                    afspeelmoment = f"{jaar}-{maand}-{dag} {tijd}"
+                    print(afspeelmoment)
+                    while True:
+                        pass
             if keuze == "4":
                 pass

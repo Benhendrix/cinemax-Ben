@@ -7,10 +7,33 @@ class Vertoning:
         self.drie_d = drie_d
         self.film_id = film_id
         self._id = id
+    
+    # Dundermethodes
+    def __str__(self):
+        return self.zaal
+    
+    def __int__(self):
+        return self.pauze
+    
+    def __int__(self):
+        return self.drie_d
+    
     # ID eigenschap
     @property
     def id(self):
         return self._id
+        
+    # Datum eigenschap, moet een lengte van 19 hebben
+    @property
+    def afspeelmoment(self):
+        return self._afspeelmoment
+
+    @afspeelmoment.setter
+    def afspeelmoment(self,afspeelmoment):
+        if len(afspeelmoment) == 19:
+            self._afspeelmoment = afspeelmoment
+        else:
+            raise ValueError
     
     # Het maken van de instanties van de vertoningen.
     @classmethod

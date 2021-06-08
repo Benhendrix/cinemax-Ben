@@ -88,3 +88,16 @@ class Datamanager:
 
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
             return vertoningen
+    
+    def vertoning_toevoegen(self,vertoning):
+        with dbconn() as cur:
+            sql = "INSERT INTO vertoningen (zaal,afspeelmoment,pauze,drie_d,film_id) VALUES (?, ?, ?, ?, ?)"
+            cur.execute(sql, [vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id])
+    
+    def vertoning_verwijderen(self, id):
+        with dbconn() as cur:
+            if id:
+                sql = "DELETE FROM vertoningen WHERE id = ?"
+                cur.execute(sql, [id])
+            else:
+                raise ValueError
