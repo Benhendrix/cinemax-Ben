@@ -1,4 +1,7 @@
 # Imports
+import datetime
+from datetime import datetime
+from re import A
 import prettytable
 from models.film import Film
 from models.ticket import Ticket
@@ -353,7 +356,19 @@ while True:
                 keuze = input("Duw op een toets om verder te gaan...")
             # Toon alle vertoningen van vandaag
             if keuze == "2":
-                pass
+                while True:
+                    table =PrettyTable()
+                    table.field_names = ["id","zaal","afspeelmoment","pauze","drie_d","film_id"]
+                    datum_vandaag = datetime.now()
+                    str_vandaag = datum_vandaag.strftime("%Y-%m-%d")
+                    vertoningen_vandaag = dm.vertoningen_vandaag(str_vandaag)
+                    for vertoning in vertoningen_vandaag:
+                        table.add_row([vertoning.id,vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id])
+                    print("")
+                    print(colored("LIJST VAN VERTONINGEN IN DATABASE VAN VANDAAG","yellow"))
+                    print(table)
+                    print("")
+                    break
             if keuze == "3":
                 pass
             if keuze == "4":

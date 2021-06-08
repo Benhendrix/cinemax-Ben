@@ -55,3 +55,9 @@ vertoningen = dm.alle_vertoningen()
 for vertoning in vertoningen:
     print(vertoning.id,vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id)
 print("="*40)
+# Tonen van alle vertoningen volgens datum
+print("="*40)
+vertoningen = dm.alle_vertoningen_datum()
+for vertoning in vertoningen:
+    print(vertoning.id,vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id)
+print("="*40)

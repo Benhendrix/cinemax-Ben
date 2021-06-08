@@ -9,7 +9,7 @@ VALUES ("Spirited Away",125,"Animatie, Familie, Fantasie",1,"Tijdens de verhuizi
        ("The Godfather",168,"Drama, Misdaad",0,"Don Vito Corleone staat aan het hoofd van een Mafia-familie in New York. Als een gangster van een andere familie besluit drugs te gaan verkopen in heel New York, ontstaan er problemen. Don Vito haat drugs, en laat dit ook blijken.","tt0068646"),
        ("Pulp Fiction",154,"Thriller, Misdaad",0,"Jules en Vincent werken voor de machtige misdadiger Marsellus Wallace. Vincent komt in de problemen als hij Mia, de vrouw van Wallace, een avondje gezelschap moet houden. Ondertussen is Wallace verwikkeld in een deal met de bokser Butch, die Wallace belazert en er met z'n geld vandoor gaat.","tt0110912"),
        ("Howls bewegende kasteel",119,"Fantasie, Animatie, Avontuur",1,"Sophie is achttien en werkt zich te pletter in de hoedenwinkel die haar vader ooit bezat. Op een uitje naar de stad loopt Sophie de mysterieuze tovenaar Howl tegen het lijf.","tt0347149"),
-       ("Harry Potter en de Gevangene van Azkaban",141,"Avontuur, Fantasie","Het is Harry's derde jaar op Hogwarts. Een gevaarlijke massamoordenaar, Sirius Black, is ontsnapt uit de Azkaban gevangenis, en iedereen is er van overtuigd dat hij er op uit is om Harry te vermoorden.","tt0304141")
+       ("Harry Potter en de Gevangene van Azkaban",141,"Avontuur, Fantasie",1,"Het is Harry's derde jaar op Hogwarts. Een gevaarlijke massamoordenaar, Sirius Black, is ontsnapt uit de Azkaban gevangenis, en iedereen is er van overtuigd dat hij er op uit is om Harry te vermoorden.","tt0304141")
 ;
 INSERT INTO vertoningen (zaal,afspeelmoment,pauze,drie_d,film_id)
 VALUES ("Zaal 1","2021-06-07 11:00:00",1,0,1),
@@ -31,7 +31,7 @@ VALUES ("Zaal 1","2021-06-07 11:00:00",1,0,1),
        ("Zaal 4","2021-06-07 14:00:00",1,0,7),
        ("Zaal 4","2021-06-07 17:00:00",1,0,7),
        ("Zaal 4","2021-06-07 20:00:00",1,0,8),
-       ("Zaal 4","2021-06-07 23:00:00",0,0,8)
+       ("Zaal 4","2021-06-07 23:00:00",0,0,8),
        ("Zaal 1","2021-06-08 11:00:00",1,0,9),
        ("Zaal 1","2021-06-08 14:00:00",1,0,9),
        ("Zaal 1","2021-06-08 17:00:00",1,0,9),

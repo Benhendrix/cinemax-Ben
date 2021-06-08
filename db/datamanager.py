@@ -69,3 +69,22 @@ class Datamanager:
             vertoningen =[Vertoning.from_dict(rij)for rij in rijen]
 
             return vertoningen
+    
+    def alle_vertoningen_datum(self):
+        with dbconn() as cur:
+            sql = "SELECT * FROM vertoningen ORDER BY afspeelmoment ASC"
+            cur.execute(sql)
+            rijen = cur.fetchall()
+            
+            vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
+            return vertoningen
+    
+    def vertoningen_vandaag(self,zoekterm):
+        with dbconn() as cur:
+            ingave = f"%{zoekterm}%"
+            sql = "SELECT * FROM vertoningen WHERE afspeelmoment LIKE ?"
+            cur.execute(sql,[ingave])
+            rijen = cur.fetchall()
+
+            vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
+            return vertoningen
