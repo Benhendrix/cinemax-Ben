@@ -41,3 +41,15 @@ def film_zoekmenu():
     print(colored("0","yellow",),"Terug naar hoofdmenu")
     print("="*50)
     print("")
+
+def toon_vertoning_menu():
+    print("")
+    print("="*50)
+    print(colored("BEHEER VERTONINGEN","yellow"))
+    print(colored("1","yellow",),"Lijst van alle vertoningen in de database")
+    print(colored("2","yellow",),"Lijst van alle vertoningen van vandaag")
+    print(colored("3","yellow",),"Vertoning toevoegen")
+    print(colored("4","yellow",),"Vertoning verwijderen")
+    print(colored("0","yellow",),"Terug naar het hoofdmenu")
+    print("="*50)
+    print("")

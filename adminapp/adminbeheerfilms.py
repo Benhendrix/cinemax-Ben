@@ -1,51 +1,47 @@
-import datetime
-from datetime import datetime
 import prettytable
 from models.film import Film
-from models.ticket import Ticket
-from models.vertoning import Vertoning
 from db.datamanager import Datamanager
 from prettytable import PrettyTable
 from colorama import init
 from termcolor import colored
-
+from adminapp.adminbeheermenus import duw_toets
 # init() voor colorama te gebruiken
 init()
 dm = Datamanager()
-# Maak de tabel aan met PrettyTabel
-table = PrettyTable()
-table2 = PrettyTable()
 # Funties voor data te verkrijgen, toe te voegen of te verwijderen
 def toon_alle_films():
+    table1 = PrettyTable()
     while True:    
         # Maak de kolom namen aan binnen de tabel
-        table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
+        table1.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
         # Haalt de data op met de datamanger
         films = dm.alle_films()
         # Voeg de rijen toe aan de tabel
         for film in films:
-            table.add_row([film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb])
+            table1.add_row([film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb])
         # Print de tabel af
         print("")
         print(colored("LIJST VAN FILMS IN DATABASE","yellow"))
-        print(table)
+        print(table1)
         print("")
         break
 
 def toon_alle_films_alfa():
+    table2 = PrettyTable()
     while True:
-        table.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
+        table2.field_names=["id","titel","speelduur","genre","kinderen","imdb"]
         # Haalt de data op maar dan alfabetisch
         films = dm.alle_films_alfa()
         for film in films:
-            table.add_row([film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb])
+            table2.add_row([film.id,film.titel,film.speelduur,film.genre,film.kinderen,film.imdb])
         print("")
         print(colored("LIJST VAN FILMS IN DATABASE ALFABETISCH","yellow"))
-        print(table)
+        print(table2)
         print("")
         break
 
 def voeg_film_toe():
+    table3 = PrettyTable
     while True:
         # Geef de atributen in van een instantie van een film klasse
         print("")
@@ -157,9 +153,9 @@ def voeg_film_toe():
                 print("="*50)
                 print("")
                 continue
-        table2.field_names =["titel","speelduur","genre","kinderen","omschrijving","imdb"]
-        table2.add_row([titel,speelduur,genre,kinderen,omschrijving,imdb])
-        print(table2)
+        table3.field_names =["titel","speelduur","genre","kinderen","omschrijving","imdb"]
+        table3.add_row([titel,speelduur,genre,kinderen,omschrijving,imdb])
+        print(table3)
         print(colored("Ben je zeker of je de film wil toevoegen","yellow"))
         bevestiging = input("J/N: ")
         print("")

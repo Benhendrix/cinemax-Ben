@@ -32,8 +32,20 @@ class Datamanager:
             rij = cur.fetchone()
 
             if rij:
-                auteur = Film.from_dict(rij)
-                return auteur
+                film = Film.from_dict(rij)
+                return film
+            else:
+                return None
+
+    def film_by_titel(self, titel):
+        with dbconn() as cur:
+            sql = "SELECT * FROM films WHERE titel = ?"
+            cur.execute(sql, [titel])
+            rij = cur.fetchone()
+
+            if rij:
+                film = Film.from_dict(rij)
+                return film
             else:
                 return None
 
@@ -55,6 +67,16 @@ class Datamanager:
             ingave = f"%{zoekterm}%"
             sql = "SELECT * FROM films WHERE titel LIKE ? OR genre LIKE ? OR omschrijving LIKE ?"
             cur.execute(sql, [ingave,ingave,ingave])
+            rijen = cur.fetchall()
+
+            films = [Film.from_dict(rij) for rij in rijen]
+            return films
+            
+    def zoek_film_op_titel(self, zoekterm):
+        with dbconn() as cur:
+            ingave = f"%{zoekterm}%"
+            sql = "SELECT * FROM films WHERE titel LIKE ?"
+            cur.execute(sql, [ingave])
             rijen = cur.fetchall()
 
             films = [Film.from_dict(rij) for rij in rijen]

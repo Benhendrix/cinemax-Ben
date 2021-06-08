@@ -388,11 +388,16 @@ while True:
                     print("="*50)
                     print("")
                     # Controle of de zaal is ingegeven
-                    while True:  
-                        zaalnummer = int(input("Geef de zaalnummer in waar de vertoning wordt afgespeeld, er zijn 4 zalen: "))
-                        print("")
-                        if zaalnummer == int:
-                            break
+                    while True: 
+                        try: 
+                            zaalnummer = int(input("Geef de zaalnummer in waar de vertoning wordt afgespeeld, er zijn 5 zalen: "))
+                            print("")
+                        except ValueError:
+                            print("="*50)
+                            print(colored("GEEN GELDIGE INPUT voor de zaalnummer!","red"))
+                            print("="*50)
+                            print("")
+                            continue
                         # Als er ooit zalen bijkomen of weggaan moet deze int(5) veranderd worden!
                         if zaalnummer <= 5:
                             break
@@ -405,11 +410,9 @@ while True:
                             print("")
                             continue
                     zaal = f"Zaal {str(zaalnummer)}"
-                    print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                    input()
                     # Controle of de datum correct is
                     while True:
-                        print(colored("Geef nu het jaar, de maand en de tijd in voor het afspeelmoment.","yellow"))
+                        print("Geef nu het jaar, de maand en de tijd in voor het afspeelmoment.")
                         print("")
                         while True:
                             jaar = input("Geef het jaar in bv 2020: ")
@@ -472,8 +475,6 @@ while True:
                             else:
                                 break
                         break
-                    print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                    input()
                     # Samenstellen van de datum en tijd voor afspeelmoment
                     afspeelmoment = f"{jaar}-{maand}-{dag} {tijd}"
                     # Controle of er een pauze is
@@ -492,8 +493,6 @@ while True:
                         else:
                             pauze = 0
                             break
-                    print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                    input()
                     # Controle of er 3D is of niet
                     while True:
                         drie_d = input("Geef in of de vertoning in 3D is (J/N): ")
@@ -510,7 +509,48 @@ while True:
                         else:
                             drie_d = 0
                             break 
-                    print(colored("Duw op een toets om verder te gaan...","yellow"))      
-                    input()                 
+                    while True:
+                        keuze_titel = input("Geef de titel van de film in: ") 
+                        vertoning_film_titel =dm.film_by_titel(keuze_titel) 
+                        if vertoning_film_titel:
+                            print("")
+                            print("="*50)
+                            print(colored("De titel is gevonden in de database!","blue"))
+                            print("="*50)
+                            print("")
+                            film_id = vertoning_film_titel.id
+                            table2 = PrettyTable()
+                            table2.field_names =["zaal","afspeelmoment","pauze","drie_d","film_id"] 
+                            table2.add_row([zaal,afspeelmoment,pauze,drie_d,film_id]) 
+                            print(table2)
+                            break
+                        else:
+                            print("")
+                            print("="*50)
+                            print(colored("De titel is niet gevonden in de database!","red"))
+                            print("="*50)
+                            print("")
+                            continue
+                    
+                    bevestiging = input("Ben je zeker of je de vertoning wilt toevoegen J/N: ")
+                    print("")
+                    if bevestiging.capitalize() == "J":
+                        # Instantie van de vertoning maken
+                        nieuwe_vertoning = Vertoning(zaal,afspeelmoment,pauze,drie_d,film_id)
+                        # vertoning toevoegen aan de database
+                        dm.vertoning_toevoegen(nieuwe_vertoning)
+                        print("")
+                        print("="*50)
+                        print(colored("De vertoning is toegevoegt aan de database","blue"))
+                        print("="*50)
+                        print("")
+                        break
+                    else:
+                        print("")
+                        print("="*50)
+                        print(colored("De vertoning is niet toegevoegd","red"))
+                        print("="*50)
+                        print("")
+                        break
             if keuze == "4":
                 pass
