@@ -43,7 +43,8 @@ def beheer_films():
                 print(table)
                 print("")
                 break
-
+            print("<i>Druk op enter om verder te gaan</i>")
+            input()
         if keuze == 2:
             while True:
                 table = PrettyTable()
@@ -57,6 +58,8 @@ def beheer_films():
                 print(table)
                 print("")
                 break
+            print("<i>Druk op enter om verder te gaan</i>")
+            input()              
         if keuze == 3:
             while True:
                 table = PrettyTable()
@@ -195,6 +198,8 @@ def beheer_films():
                     print("="*50)
                     print("")
                     break
+            print("<i>Druk op enter om verder te gaan</i>")
+            input() 
         if keuze == 4:
             menu_items = [
                 "Zoek op id",
@@ -229,6 +234,9 @@ def beheer_films():
                             print("")
                             print("")
                             continue
+                    print("<i>Druk op enter om verder te gaan</i>")
+                    input()
+
                 if keuze ==2:
                     keuze_ingave = input("Geef letters in om te zoeken in de database naar films: ")
                     print("")
@@ -241,9 +249,10 @@ def beheer_films():
                     print("")   
                     print(table)
                     print("")
-                print("<i>Druk op enter om verder te gaan</i>")
-                input()
-                
+                    print("<i>Druk op enter om verder te gaan</i>")
+                    input()
+            print("<i>Druk op enter om verder te gaan</i>")
+            input() 
         if keuze == 5:
             while True:
                 # Zoek op id om de film uit de database te verwijderen
@@ -292,5 +301,5 @@ def beheer_films():
                     print_fout("De film is niet verwijderd")
                     print("")
                     break
-        print("<i>Druk op enter om verder te gaan</i>")
-        input()
+            print("<i>Druk op enter om verder te gaan</i>")
+            input()

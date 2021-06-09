@@ -1,7 +1,7 @@
-from adminapp.adminbeheerfilms import beheer_films
 from ansimarkup import ansiprint as print
 from utils.terminalutils import clear_terminal, toon_menu
-
+from adminapp.adminbeheerfilms import beheer_films
+from adminapp.adminbeheervertoningen import beheer_vertoningen
 menu_items = [
     "BEHEER FILMS",
     "BEHEER VERTONINGEN",
@@ -15,9 +15,12 @@ while True:
 
     if keuze == 0:
         break
+    
     if keuze == 1:
         beheer_films()
+
     if keuze == 2:
-        pass
+        beheer_vertoningen()
+
     if keuze == 3:
         pass

@@ -118,6 +118,18 @@ class Datamanager:
             sql = "INSERT INTO vertoningen (zaal,afspeelmoment,pauze,drie_d,film_id) VALUES (?, ?, ?, ?, ?)"
             cur.execute(sql, [vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id])
     
+    def vertoning_by_id(self, id):
+        with dbconn() as cur:
+            sql = "SELECT * FROM vertoningen WHERE id = ?"
+            cur.execute(sql, [id])
+            rij = cur.fetchone()
+
+            if rij:
+                vertoning = Vertoning.from_dict(rij)
+                return vertoning
+            else:
+                return None
+
     def vertoning_verwijderen(self, id):
         with dbconn() as cur:
             if id:

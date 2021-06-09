@@ -6,14 +6,27 @@ from colorama import init
 from termcolor import colored
 import datetime
 from datetime import datetime
-from adminapp.adminbeheermenus import duw_toets
+
+def beheer_vertoningen():
+
+    dm = Datamanager()
+
+    menu_items =[
+        "Lijst van alle vertoningen",
+        "Lijst van alle vertoningen op datum"
+        "Lijst van alle vertoningen van vandaag",
+        "Vertoning toevoegen",
+        "Film zoeken",
+        "Film verwijderen",
+    ]
+    pass
 # Voor colorama te gebruiken
 init()
 # Var voor de datamanger
 dm = Datamanager()
 # Voor de tabel te maken
-def beheer_vertoningen():
-    
+
+def toon_alle_vertoningen():
     table1 = PrettyTable()
     while True:
         table1.field_names = ["id","zaal","afspeelmoment","pauze","drie_d","film_id"]
@@ -26,6 +39,20 @@ def beheer_vertoningen():
         print("")
         break
 
+def toon_alle_vertoningen_datum():
+    table1 = PrettyTable()
+    while True:
+        table1.field_names = ["id","zaal","afspeelmoment","pauze","drie_d","film_id"]
+        vertoningen = dm.alle_vertoningen_datum()
+        for vertoning in vertoningen:
+            table1.add_row([vertoning.id,vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id])
+        print("")  
+        print(colored("LIJST VAN VERTONINGEN IN DATABASE OP DATUM","yellow"))
+        print(table1)
+        print("")
+        break
+    
+def toon_vertoningen_vandaag():
     table2 =PrettyTable()
     while True:
         table2.field_names = ["id","zaal","afspeelmoment","pauze","drie_d","film_id"]
@@ -40,6 +67,7 @@ def beheer_vertoningen():
         print("")
         break
 
+def voeg_vertoning_toe():
     table3 = PrettyTable()
     # Vertoning toevoegen
     while True:
