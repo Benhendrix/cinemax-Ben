@@ -1,13 +1,12 @@
-from utils.terminalutils import clear_terminal, invoer_getal, print_fout, print_instructie, print_waarschuwing, toon_menu
 import prettytable
+import os
 from models.film import Film
 from db.datamanager import Datamanager
 from prettytable import PrettyTable
 from ansimarkup import ansiprint as print
 import os
-# init() voor colorama te gebruiken
+from utils.terminalutils import clear_terminal, invoer_getal, print_fout, print_instructie, print_waarschuwing, toon_menu
 
-# Funties voor data te verkrijgen, toe te voegen of te verwijderen
 def beheer_films():
     dm = Datamanager()
 

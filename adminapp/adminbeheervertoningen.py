@@ -1,18 +1,13 @@
 import prettytable
+import os
 from models.vertoning import Vertoning
 from db.datamanager import Datamanager
 from prettytable import PrettyTable
 from ansimarkup import ansiprint as print
-
 import datetime
 from datetime import datetime
 from utils.terminalutils import clear_terminal, print_fout, print_instructie, print_waarschuwing, toon_menu
 
-# Voor colorama te gebruiken
-
-# Var voor de datamanger
-
-# Voor de tabel te maken
 def beheer_vertoningen():
     dm = Datamanager()
 
