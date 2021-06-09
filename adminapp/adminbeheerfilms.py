@@ -1,4 +1,4 @@
-from utils.terminalutils import clear_terminal, print_fout, print_instructie, print_waarschuwing, toon_menu
+from utils.terminalutils import clear_terminal, invoer_getal, print_fout, print_instructie, print_waarschuwing, toon_menu
 import prettytable
 from models.film import Film
 from db.datamanager import Datamanager
@@ -136,7 +136,7 @@ def beheer_films():
                         print("")
                     except ValueError:
                         print("="*50)
-                        print_fout("GEEN GELDIGE INPUT voor de kinderen!")
+                        print_fout("GEEN GELDIGE INPUT voor de kinderenn geef een getal in!")
                         print("="*50)
                         print("")
                         continue
@@ -147,7 +147,7 @@ def beheer_films():
                         print_fout("GEEN GELDIGE INPUT voor de kinderen!")
                         print("="*50)
                         print("")
-                        continue  
+                        continue
                 while True:  
                     omschrijving = input("Geef de omschrijving van de film in: ")
                     print("")
@@ -201,7 +201,7 @@ def beheer_films():
             print("<i>Druk op enter om verder te gaan</i>")
             input() 
         if keuze == 4:
-            menu_items = [
+            menu_items2 = [
                 "Zoek op id",
                 "Zoek op letteringave"
             ]
@@ -209,7 +209,8 @@ def beheer_films():
             while True:
                 clear_terminal()
                 print_instructie("FILM ZOEKEN")
-                keuze = toon_menu(menu_items)
+                keuze = toon_menu(menu_items2)
+                print("")
                 if keuze == 0:
                     break
 
@@ -235,8 +236,7 @@ def beheer_films():
                             print("")
                             continue
                     print("<i>Druk op enter om verder te gaan</i>")
-                    input()
-
+                    input() 
                 if keuze ==2:
                     keuze_ingave = input("Geef letters in om te zoeken in de database naar films: ")
                     print("")
@@ -250,9 +250,7 @@ def beheer_films():
                     print(table)
                     print("")
                     print("<i>Druk op enter om verder te gaan</i>")
-                    input()
-            print("<i>Druk op enter om verder te gaan</i>")
-            input() 
+                    input() 
         if keuze == 5:
             while True:
                 # Zoek op id om de film uit de database te verwijderen
