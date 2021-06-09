@@ -1,4 +1,4 @@
-
+from models.vertoning import Vertoning
 class Ticket:
     def __init__(self,kind,volwassen,totaal,vertoning_id,id=None):
         self.kind = kind
@@ -10,7 +10,7 @@ class Ticket:
     @property
     def id(self):
         return self._id
-    
+
     # Het maken van de instanties van de films.
     @classmethod
     def from_dict(cls,dict):
@@ -20,4 +20,4 @@ class Ticket:
         vertoning_id = dict["vertoning_id"]
         id = dict["id"]
 
-        return cls(kind,volwassen,vertoning_id,totaal,id)
+        return cls(kind,volwassen,totaal,vertoning_id,id)

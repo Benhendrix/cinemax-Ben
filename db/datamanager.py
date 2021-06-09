@@ -2,6 +2,8 @@ from models.film import Film
 from models.ticket import Ticket
 from models.vertoning import Vertoning
 from db.database import dbconn
+import datetime
+from datetime import datetime
 
 class Datamanager:
     # Methodes voor Films
@@ -123,3 +125,8 @@ class Datamanager:
                 cur.execute(sql, [id])
             else:
                 raise ValueError
+    
+    def tickets_vorige_week():
+        with dbconn() as cur:
+            pass
+            

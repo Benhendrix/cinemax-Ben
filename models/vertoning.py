@@ -34,7 +34,11 @@ class Vertoning:
             self._afspeelmoment = afspeelmoment
         else:
             raise ValueError
-    
+    # Voor de datum te krijgen van een vertoning
+    @classmethod
+    def get_datum(cls):
+        return cls.afspeelmoment
+
     # Het maken van de instanties van de vertoningen.
     @classmethod
     def from_dict(cls,dict):
