@@ -83,6 +83,7 @@ class Datamanager:
 
             films = [Film.from_dict(rij) for rij in rijen]
             return films
+            
     # Methodes voor vertoningen
     def alle_vertoningen(self):
         with dbconn() as cur:
@@ -138,7 +139,16 @@ class Datamanager:
             else:
                 raise ValueError
     
-    def tickets_vorige_week():
+    def tickets_vorige_week(self,id):
         with dbconn() as cur:
-            pass
+            sql = "SELECT tickets.id,tickets.kind,tickets.totaal,tickets.vertoning_id,vertoningen.id,vertoningen.afspeelmoment FROM tickets INNER JOIN vertoningen ON tickets.vertoning_id = vertoning.id WHERE WEEK id = ? = WEEK(NOW()) - 1"
+            cur.execute(sql, [id])
+            rij = cur.fetchone()
+
+            if rij:
+                ticket = Ticket.from_dict(rij)
+                return ticket
+            else:
+                return None
+            
             

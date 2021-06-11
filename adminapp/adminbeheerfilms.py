@@ -44,6 +44,7 @@ def beheer_films():
                 break
             print("<i>Druk op enter om verder te gaan</i>")
             input()
+
         if keuze == 2:
             while True:
                 table = PrettyTable()
@@ -58,7 +59,8 @@ def beheer_films():
                 print("")
                 break
             print("<i>Druk op enter om verder te gaan</i>")
-            input()              
+            input()  
+
         if keuze == 3:
             while True:
                 table = PrettyTable()
@@ -199,6 +201,7 @@ def beheer_films():
                     break
             print("<i>Druk op enter om verder te gaan</i>")
             input() 
+
         if keuze == 4:
             menu_items2 = [
                 "Zoek op id",
@@ -236,6 +239,7 @@ def beheer_films():
                             continue
                     print("<i>Druk op enter om verder te gaan</i>")
                     input() 
+
                 if keuze ==2:
                     keuze_ingave = input("Geef letters in om te zoeken in de database naar films: ")
                     print("")
@@ -250,6 +254,7 @@ def beheer_films():
                     print("")
                     print("<i>Druk op enter om verder te gaan</i>")
                     input() 
+                    
         if keuze == 5:
             while True:
                 # Zoek op id om de film uit de database te verwijderen
