@@ -12,12 +12,6 @@ class Vertoning:
     def __str__(self):
         return self.zaal
     
-    def __int__(self):
-        return self.pauze
-    
-    def __int__(self):
-        return self.drie_d
-    
     # ID eigenschap
     @property
     def id(self):
