@@ -26,22 +26,25 @@ class Film:
         else:
             raise ValueError
 
-
     # Dundermethodes 
     def __str__(self):
         return self.titel
+
+    # Atributen eigenschappen voor strings
     @property
     def titel_str(self):
         return self.titel
     @property
     def speelduur_str(self):
+        if self.speelduur >= 180:
+            min = self.speelduur - 180
+            return f"3u {min}"
         if self.speelduur >= 120:
             min = self.speelduur - 120
             return f"2u {min}min"
         if self.speelduur >= 60:
             min = self.speelduur - 60
             return f"1u {min}min"
-
     @property
     def genre_str(self):
         return f"{self.genre}"

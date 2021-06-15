@@ -38,6 +38,16 @@ class Datamanager:
                 return film
             else:
                 return None
+    
+    def films_vandaag_uur(self,uur):
+        with dbconn() as cur:
+            ingave = f"%{uur}%"
+            sql = "SELECT films.*,vertoningen.* FROM films INNER JOIN vertoningen ON films.id = vertoningen.film_id AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ?"
+            cur.execute(sql,[ingave])
+            rijen = cur.fetchall()
+
+            films = [Film.from_dict(rij) for rij in rijen]
+            return films
 
     def film_by_titel(self, titel):
         with dbconn() as cur:
@@ -104,11 +114,10 @@ class Datamanager:
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
             return vertoningen
     
-    def vertoningen_vandaag(self,zoekterm):
+    def vertoningen_vandaag(self):
         with dbconn() as cur:
-            ingave = f"%{zoekterm}%"
-            sql = "SELECT * FROM vertoningen WHERE afspeelmoment LIKE ?"
-            cur.execute(sql,[ingave])
+            sql = "SELECT * FROM vertoningen WHERE date(afspeelmoment) == date('now')"
+            cur.execute(sql)
             rijen = cur.fetchall()
 
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
@@ -139,6 +148,17 @@ class Datamanager:
             else:
                 raise ValueError
     
+    def vertoningen_by_filmId(self,film,uur):
+        with dbconn() as cur:
+            ingave = f"%{uur}%"
+            sql = "SELECT vertoningen.* FROM vertoningen INNER JOIN films ON vertoningen.film_id = films.id WHERE films.id = ? AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ? "
+            cur.execute(sql, [film.id,ingave])
+            rijen = cur.fetchall()
+
+            vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
+            return vertoningen
+
+    # Methodes voor tickets
     def tickets_vorige_week(self,id):
         with dbconn() as cur:
             sql = "SELECT tickets.id,tickets.kind,tickets.totaal,tickets.vertoning_id,vertoningen.id,vertoningen.afspeelmoment FROM tickets INNER JOIN vertoningen ON tickets.vertoning_id = vertoning.id WHERE WEEK id = ? = WEEK(NOW()) - 1"
