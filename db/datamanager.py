@@ -148,7 +148,7 @@ class Datamanager:
             else:
                 raise ValueError
     
-    def vertoningen_by_filmId(self,film,uur):
+    def vertoningen_filmId_uur(self,film,uur):
         with dbconn() as cur:
             ingave = f"%{uur}%"
             sql = "SELECT vertoningen.* FROM vertoningen INNER JOIN films ON vertoningen.film_id = films.id WHERE films.id = ? AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ? "

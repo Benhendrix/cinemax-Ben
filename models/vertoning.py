@@ -7,15 +7,16 @@ class Vertoning:
         self.drie_d = drie_d
         self.film_id = film_id
         self._id = id
-    
-    # Dundermethodes
-    def __str__(self):
-        return f"{self.zaal}, {self.afspeelmoment[11:19]}"
-    # ID eigenschap
+
+      # ID eigenschap
     @property
     def id(self):
         return self._id
-        
+    # Atributen eigenschappen
+    @property
+    def zaal_str(self):
+        return f"{self.zaal}"
+
     # Datum eigenschap, moet een lengte van 19 hebben
     @property
     def afspeelmoment(self):
@@ -27,18 +28,28 @@ class Vertoning:
             self._afspeelmoment = afspeelmoment
         else:
             raise ValueError
-    # Atributen eigenschappen
+
     @property
     def afspeelmoment_uur(self):
         return f"{self.afspeelmoment[11:19]}"
+
     @property
     def pauze_str(self):
         if self.pauze == 0:
-            return f"Er is geen pauze tijdens deze voorstelling."
+            return f"Er is geen pauze voorzien tijdens de voorstelling."
         else:
-            return f"Er is een pauze van 15 minuten tijdens de voorstelling."
+            return f"Er is een pauze van 15 min tijdens de voorstelling"
 
-    
+    @property
+    def dried_str(self):
+        if self.drie_d == 0:
+            return f"Er is geen 3D tijdens de voorstelling."
+        else:
+            return f"De voorstelling wordt in 3D vertoont."
+
+   # Dundermethodes
+    def __str__(self):
+        return f"{self.zaal}"
     
     # Voor de datum te krijgen van een vertoning
     @classmethod

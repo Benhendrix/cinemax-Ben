@@ -59,9 +59,7 @@ def beheer_vertoningen():
             while True:
                 table =PrettyTable()
                 table.field_names = ["id","zaal","afspeelmoment","pauze","drie_d","film_id"]
-                datum_vandaag = datetime.now()
-                str_vandaag = datum_vandaag.strftime("%Y-%m-%d")
-                vertoningen_vandaag = dm.vertoningen_vandaag(str_vandaag)
+                vertoningen_vandaag = dm.vertoningen_vandaag()
                 for vertoning in vertoningen_vandaag:
                     table.add_row([vertoning.id,vertoning.zaal,vertoning.afspeelmoment,vertoning.pauze,vertoning.drie_d,vertoning.film_id])
                 print("")
@@ -175,25 +173,31 @@ def beheer_vertoningen():
                 while True:
                     pauze = input("Geef in of er een pauze is of niet (J/N): ")
                     print("")
-                    if pauze.capitalize == "J":
+                    if pauze.capitalize() == "J":
                         pauze = 1
                         break
-                    else:
+                    if pauze.capitalize() =="N":
                         pauze = 0
                         break
+                    else:
+                        print("Gelieve J of N te gebruiken voor je keuze")
+                        continue
                 # Controle of er 3D is of niet
                 while True:
                     drie_d = input("Geef in of de vertoning in 3D is (J/N): ")
                     print("")
-                    if drie_d.capitalize == "J":
+                    if drie_d.capitalize() == "j":
                         drie_d = 1
                         break
-                    else:
+                    if drie_d.capitalize() =="N":
                         drie_d = 0
-                        break 
+                        break
+                    else:
+                        print("Gelieve J of N te gebruiken voor je keuze")
+                        continue
                 while True:
                     keuze_titel = input("Geef de titel van de film in: ") 
-                    vertoning_film_titel =dm.film_by_titel(keuze_titel) 
+                    vertoning_film_titel =dm.film_by_titel(keuze_titel)
                     if vertoning_film_titel:
                         print("")
                         print("="*50)
@@ -243,18 +247,17 @@ def beheer_vertoningen():
                 print_instructie("Je kunt nu een vertoning verwijderen uit de database")
                 print("="*50)
                 print("")
-                keuze_verwijderen = input("Geef een id in om de vertoning te verwijderen: ")
-                print("")
                 while True:
+                    keuze_verwijderen = input("Geef een id in om de vertoning te verwijderen: ")
                     vertoning_tonen = dm.vertoning_by_id(keuze_verwijderen)
                     if vertoning_tonen:
-                            table = PrettyTable()
-                            table.field_names=["id","zaal","afspeelmoment","pauze","drie_d","film_id"]
-                            table.add_row([vertoning_tonen.id,vertoning_tonen.zaal,vertoning_tonen.afspeelmoment,vertoning_tonen.pauze,vertoning_tonen.drie_d,vertoning_tonen.film_id])
-                            print("")
-                            print(table)
-                            print("")
-                            break
+                        table = PrettyTable()
+                        table.field_names=["id","zaal","afspeelmoment","pauze","drie_d","film_id"]
+                        table.add_row([vertoning_tonen.id,vertoning_tonen.zaal,vertoning_tonen.afspeelmoment,vertoning_tonen.pauze,vertoning_tonen.drie_d,vertoning_tonen.film_id])
+                        print("")
+                        print(table)
+                        print("")
+                        break
                     else:
                         print("")
                         print("="*50)
@@ -263,7 +266,7 @@ def beheer_vertoningen():
                         print("")
                         print("")
                         continue
-                print_waarschuwing("Ben je zeker of je de film wil toevoegen")
+                print_waarschuwing("Ben je zeker of je de vertoning wil toevoegen")
                 bevestiging = input("J/N: ")
                 # Vragen aan de admin of hij zeker is voor het toevoegen van de vertoning aan de database hierbij hoort ook dat de instantie wordt aangemaakt binnen de klasse Film
                 if bevestiging.capitalize() == "J":
@@ -279,7 +282,7 @@ def beheer_vertoningen():
                     # Vertoning niet verwijderen als J of j niet wordt gebruikt
                     print("")
                     print("="*50)
-                    print_fout("De film is niet verwijderd")
+                    print_fout("De vertoning is niet verwijderd")
                     print("")
                     break
             print("<i>Druk op enter om verder te gaan</i>")

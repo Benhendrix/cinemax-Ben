@@ -1,4 +1,4 @@
-
+from models.afbeelding import get_img_data
 class Film:
     def __init__(self,titel,speelduur,genre,kinderen,omschrijving,imdb,id=None):
         self.titel = titel
@@ -30,10 +30,10 @@ class Film:
     def __str__(self):
         return self.titel
 
-    # Atributen eigenschappen voor strings
+    # Atributen eigenschappen
     @property
     def titel_str(self):
-        return self.titel
+        return f"{self.titel}"
     @property
     def speelduur_str(self):
         if self.speelduur >= 180:
@@ -58,6 +58,9 @@ class Film:
     def omschrijving_str(self):
         return f"{self.omschrijving}"
 
+     # Dundermethodes 
+    def __str__(self):
+        return self.titel
 
     # Het maken van de instanties van de films.
     @classmethod
