@@ -147,11 +147,21 @@ class Datamanager:
                 cur.execute(sql, [id])
             else:
                 raise ValueError
+
+    def vertoningen_vandaag_uur(self,vertoning,uur):
+        with dbconn() as cur:
+            ingave = f"%{uur}%"
+            sql = "SELECT * FROM vertoningen WHERE vertoningen.zaal = ? AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ?"
+            cur.execute(sql,[vertoning,ingave])
+            rijen = cur.fetchall()
+
+            vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
+            return vertoningen
     
     def vertoningen_filmId_uur(self,film,uur):
         with dbconn() as cur:
             ingave = f"%{uur}%"
-            sql = "SELECT vertoningen.* FROM vertoningen INNER JOIN films ON vertoningen.film_id = films.id WHERE films.id = ? AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ? "
+            sql = "SELECT * FROM vertoningen INNER JOIN films ON vertoningen.film_id = films.id WHERE films.id = ? AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ? "
             cur.execute(sql, [film.id,ingave])
             rijen = cur.fetchall()
 
@@ -170,5 +180,18 @@ class Datamanager:
                 return ticket
             else:
                 return None
+
+    def alle_tickets(self):
+        with dbconn() as cur:
+            sql = "SELECT * FROM tickets"
+            cur.execute(sql)
+            rijen = cur.fetchall()
             
-            
+            tickets = [Ticket.from_dict(rij) for rij in rijen]
+
+            return tickets
+    
+    def ticket_toevoegen(self, ticket):
+        with dbconn() as cur:
+            sql = "INSERT INTO tickets (kind,volwassen,totaal,vertoning_id) VALUES (?, ?, ?, ?)"
+            cur.execute(sql, [ticket.kind,ticket.volwassen,ticket.totaal,ticket.vertoning_id])

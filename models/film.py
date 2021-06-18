@@ -26,10 +26,6 @@ class Film:
         else:
             raise ValueError
 
-    # Dundermethodes 
-    def __str__(self):
-        return self.titel
-
     # Atributen eigenschappen
     @property
     def titel_str(self):

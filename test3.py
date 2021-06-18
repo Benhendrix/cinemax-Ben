@@ -1,4 +1,5 @@
 from datetime import datetime
+from sys import version
 import PySimpleGUI as gui
 from db.datamanager import Datamanager
 from models.film import Film
@@ -31,7 +32,7 @@ layout_beschrijving = [
     [gui.Text("Kinderen:",size=(15, 1)),gui.Text("",size=(40,1),key="-kinderen-")],
     [gui.Text("Genres:",size=(15, 1)),gui.Text("",size=(40,1),key="-genres-")],
     [gui.Text("Speelduur:",size=(15, 1)),gui.Text("",size=(40,1),key="-speelduur-")],
-    [gui.Text("Omschrijving:",size=(15, 5)),gui.Text("",size=(40,5),key="-omschrijving-")]
+    [gui.Text("Omschrijving:",size=(15, 10)),gui.Text("",size=(40,10),key="-omschrijving-")]
     ]),
     gui.Column([
     [gui.Text("Zaal:",size=(15, 1)),gui.Text("",size=(40,1),key="-zaal-")],
@@ -41,13 +42,25 @@ layout_beschrijving = [
     ])
 ]
 
+layout_ticket_beschrijving = [
+    gui.Column([]),
+    gui.Column([
+    [gui.Text("Prijs per kind",size=(20, 1)),gui.Text("",size=(15,1),key="-kind-")],
+    [gui.Text("Prijs per volwassenen:",size=(20, 1)),gui.Text("",size=(15,1),key="-volwassen-")],
+    [gui.Text("Geef het aantal tickets voor de kinderen in:",size=(30, None)),gui.Input(key="-kindaantal-", size=(10, None))],
+    [gui.Text("Geef het aantal tickets voor de volwassenen in:",size=(30, None)),gui.Input(key="-volwassenaantal-", size=(10, None))],
+    [gui.Button("Toon totaal bedrag", key="-b_totaal-"),gui.Text("", size=(50, None), key="-totaal-", font="bold")]
+    ])
+]
+
 layout = [
     layout_titel,
     layout_listbox,
-    layout_beschrijving
+    layout_beschrijving,
+    layout_ticket_beschrijving
 ]
 
-window = gui.Window("CINEMAX", layout, size=(1400, 800),font= "Helvetica 16", element_justification="c")
+window = gui.Window("CINEMAX", layout, size=(1400, 800),font= "Helvetica 14", element_justification="c")
 
 while True:
     event, values = window.read()
@@ -68,9 +81,24 @@ while True:
         window["-speelduur-"].update(value=film.speelduur_str)
         window["-omschrijving-"].update(value=film.omschrijving_str)
 
-    if event == ["-vertoningen-"]:
-        geselecteerde_film = values["-films-"][0]
-        vertoningen = dm.vertoningen_filmId_uur(geselecteerde_film,uur)
-        window["-zaal-"].update(value=vertoning1["zaal"])
+    if event == "-vertoningen-":
+        vertoning = values["-vertoningen-"][0]
+        window["-zaal-"].update(value=vertoning.zaal_str)
+        window["-afspeelmoment-"].update(value=vertoning.afspeelmoment_uur)
+        window["-pauze-"].update(value=vertoning.pauze_str)
+        window["-3D-"].update(value=vertoning.dried_str)
+    
+    if event == "-b_totaal-":
+        kindtotaal = values.get("-kindaantal-") or ""
+        if kindtotaal =="":
+            kindtotaal = 0
+        valwassentotaal = values.get("-volwassenaantal-") or ""
+        if valwassentotaal =="":
+            valwassentotaal = 0
+        totaalprijs = float(kindtotaal)*5.00 + float(valwassentotaal)*7.00
+        totaalprijs = format(totaalprijs,".2f")
+        
+
+        window["-totaal-"].update(value=f"{totaalprijs} €")
  
 window.close()

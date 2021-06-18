@@ -8,15 +8,8 @@ import PySimpleGUI as gui
 dm = Datamanager()
 
 uur ="20:00:00"
-films = dm.films_vandaag_uur(uur)
-list1 = []
-list2 = []
+vertoningen = dm.vertoningen_vandaag_uur("11:00:00")
 
-for film in films:
-    list1.append(dm.vertoningen_filmId_uur(film,uur))
-for vertoningen in list1:
-    for items in vertoningen:
-
-        print(items,"1vertoning")
-
-
+for items in vertoningen:
+    print(items.zaal_str)
+  

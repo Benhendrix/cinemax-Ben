@@ -11,6 +11,20 @@ class Ticket:
     def id(self):
         return self._id
 
+    @property
+    def kind_prijs(self):
+        return f"5.00 €"
+
+    @property
+    def volwassen_prijs(self):
+        return f"7.00 €"
+
+    @property
+    def totaal_prijs(self):
+        prijskind = 5
+        prijsvolwassen = 7
+        self.totaal = self.kind * prijskind + self.volwassen * prijsvolwassen
+        return f"{self.totaal}"
     # Het maken van de instanties van de films.
     @classmethod
     def from_dict(cls,dict):
