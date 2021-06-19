@@ -1,4 +1,5 @@
 from datetime import datetime
+from models.ticket import Ticket
 from sys import version
 import PySimpleGUI as gui
 from db.datamanager import Datamanager
@@ -28,29 +29,30 @@ layout_listbox = [
 
 layout_beschrijving = [
     gui.Column([
-    [gui.Text("Titel:",size=(15, 1)),gui.Text("",size=(40,1),key="-titel-")],
-    [gui.Text("Kinderen:",size=(15, 1)),gui.Text("",size=(40,1),key="-kinderen-")],
-    [gui.Text("Genres:",size=(15, 1)),gui.Text("",size=(40,1),key="-genres-")],
-    [gui.Text("Speelduur:",size=(15, 1)),gui.Text("",size=(40,1),key="-speelduur-")],
-    [gui.Text("Omschrijving:",size=(15, 10)),gui.Text("",size=(40,10),key="-omschrijving-")]
+        [gui.Text("Titel:",size=(15, 1)),gui.Text("",size=(40,1),key="-titel-")],
+        [gui.Text("Kinderen:",size=(15, 1)),gui.Text("",size=(40,1),key="-kinderen-")],
+        [gui.Text("Genres:",size=(15, 1)),gui.Text("",size=(40,1),key="-genres-")],
+        [gui.Text("Speelduur:",size=(15, 1)),gui.Text("",size=(40,1),key="-speelduur-")],
+        [gui.Text("Omschrijving:",size=(15, 10)),gui.Text("",size=(40,10),key="-omschrijving-")]
     ]),
     gui.Column([
-    [gui.Text("Zaal:",size=(15, 1)),gui.Text("",size=(40,1),key="-zaal-")],
-    [gui.Text("afspeelmoment:",size=(15, 1)),gui.Text("",size=(40,1),key="-afspeelmoment-")],
-    [gui.Text("Pauze:",size=(15, 1)),gui.Text("",size=(40,1),key="-pauze-")],
-    [gui.Text("3D:",size=(15, 1)),gui.Text("",size=(40,1),key="-3D-")]         
+        [gui.Text("Zaal:",size=(15, 1)),gui.Text("",size=(40,1),key="-zaal-")],
+        [gui.Text("afspeelmoment:",size=(15, 1)),gui.Text("",size=(40,1),key="-afspeelmoment-")],
+        [gui.Text("Pauze:",size=(15, 1)),gui.Text("",size=(40,1),key="-pauze-")],
+        [gui.Text("3D:",size=(15, 1)),gui.Text("",size=(40,1),key="-3D-")]         
     ])
 ]
 
 layout_ticket_beschrijving = [
     gui.Column([]),
     gui.Column([
-    [gui.Text("Prijs per kind",size=(20, 1)),gui.Text("",size=(15,1),key="-kind-")],
-    [gui.Text("Prijs per volwassenen:",size=(20, 1)),gui.Text("",size=(15,1),key="-volwassen-")],
-    [gui.Text("Geef het aantal tickets voor de kinderen in:",size=(30, None)),gui.Input(key="-kindaantal-", size=(10, None))],
-    [gui.Text("Geef het aantal tickets voor de volwassenen in:",size=(30, None)),gui.Input(key="-volwassenaantal-", size=(10, None))],
-    [gui.Button("Toon totaal bedrag", key="-b_totaal-"),gui.Text("", size=(50, None), key="-totaal-", font="bold")]
-    ])
+        [gui.Text("Prijs per kind:",size=(30, 1)),gui.Text("5.00 €",size=(15,1),key="-kind-")],
+        [gui.Text("Prijs per volwassenen:",size=(30, 1)),gui.Text("7.00 € ",size=(15,1),key="-volwassen-")],
+        [gui.Text("Geef het aantal tickets voor de kinderen in:",size=(30, None)),gui.Input(key="-kindaantal-", size=(4, None),enable_events=True)],
+        [gui.Text("Geef het aantal tickets voor de volwassenen in:",size=(30, None)),gui.Input(key="-volwassenaantal-", size=(4, None),enable_events=True)],
+        [gui.Button("Toon totaal bedrag",key="-b_totaal-",enable_events=True),gui.Text("", size=(30, None), key="-totaal-", font="bold")]
+    ]),
+        [gui.Button("Aankoop doen?",disabled=True, key="-b_aankoop-"),gui.Text("", size=(37, None), key="-aankoop-", font="bold")]
 ]
 
 layout = [
@@ -60,11 +62,11 @@ layout = [
     layout_ticket_beschrijving
 ]
 
-window = gui.Window("CINEMAX", layout, size=(1400, 800),font= "Helvetica 14", element_justification="c")
+window = gui.Window("CINEMAX", layout, size=(1500, 900),font= "Helvetica 14", element_justification="c")
 
 while True:
     event, values = window.read()
-    if event == gui.WIN_CLOSED:
+    if event == gui.WIN_CLOSED or event == 'Cancel':
         break
     if event == "-films-":
         geselecteerde_film = values["-films-"][0]
@@ -80,6 +82,7 @@ while True:
         window["-genres-"].update(value=film.genre_str)
         window["-speelduur-"].update(value=film.speelduur_str)
         window["-omschrijving-"].update(value=film.omschrijving_str)
+        window["-aankoop-"].update(value=f"{film.titel}")
 
     if event == "-vertoningen-":
         vertoning = values["-vertoningen-"][0]
@@ -87,18 +90,53 @@ while True:
         window["-afspeelmoment-"].update(value=vertoning.afspeelmoment_uur)
         window["-pauze-"].update(value=vertoning.pauze_str)
         window["-3D-"].update(value=vertoning.dried_str)
+        window["-aankoop-"].update(value=f"{film.titel}, {vertoning.zaal}, {vertoning.afspeelmoment_uur}")
     
-    if event == "-b_totaal-":
+    if event == "-kindtotaal-" or event == "-volwassentotaal-" or event == "-b_totaal-":
         kindtotaal = values.get("-kindaantal-") or ""
-        if kindtotaal =="":
+        if kindtotaal == "":
             kindtotaal = 0
-        valwassentotaal = values.get("-volwassenaantal-") or ""
-        if valwassentotaal =="":
-            valwassentotaal = 0
-        totaalprijs = float(kindtotaal)*5.00 + float(valwassentotaal)*7.00
-        totaalprijs = format(totaalprijs,".2f")
-        
+        volwasssentotaal = values.get("-volwassenaantal-") or ""
+        if volwasssentotaal == "":
+            volwasssentotaal = 0
 
-        window["-totaal-"].update(value=f"{totaalprijs} €")
- 
+        totaalprijs = float(kindtotaal)*5.00 + float(volwasssentotaal)*7.00
+        totaalprijs_flt = format(totaalprijs,".2f")
+    
+        window["-totaal-"].update(value=f"{totaalprijs_flt} €")
+        window["-aankoop-"].update(value=f"{film.titel}, {vertoning.zaal}, {vertoning.afspeelmoment_uur}, {totaalprijs_flt} €")
+  
+    keys = ["-titel-","-zaal-","-afspeelmoment-","-kindaantal-","-volwassenaantal-","-totaal-"]
+    if event in keys:
+        errors = {}
+        for key in keys:
+            window[key].set_tooltip("")
+
+        if values["-titel-"] == film.titel_str:
+            window["-titel-"].update(background_color="white")
+        else:
+            window["-titel-"].update(background_color="red")
+            errors["-titel-"] = "Titel is ongeldig formaat."
+        
+        if values["-zaal-"] == film.zaal_str:
+            window["-zaal-"].update(background_color="white")
+        else:
+            window["-zaal-"].update(background_color="red")
+            errors["-zaal-"] = "Zaal is ongeldig formaat."
+        
+        if values["-afspeelmoment-"] == vertoning.afspeelmoment_uur:
+            window["-afspeelmoment-"].update(background_color="white")
+        else:
+            window["-afspeelmoment-"].update(background_color="red")
+            errors["-afspeelmoment-"] = "Afspeelmoment is ongeldig formaat."
+        
+        if values["-totaal-"] == totaalprijs_flt:
+            window["-totaal-"].update(background_color="white")
+        else:
+            window["-totaal-"].update(background_color="red")
+            errors["-totaal-"] = "Het totaal is klopt niet."
+        
+  
+            
+
 window.close()

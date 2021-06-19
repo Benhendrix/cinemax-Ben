@@ -48,6 +48,17 @@ class Datamanager:
 
             films = [Film.from_dict(rij) for rij in rijen]
             return films
+    
+    def films_vandaag_uren(self,uur1,uur2):
+        with dbconn() as cur:
+            ingave1 = f"%{uur1}%"
+            ingave2 = f"%{uur2}%"
+            sql = "SELECT films.*,vertoningen.* FROM films INNER JOIN vertoningen ON films.id = vertoningen.film_id AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ? OR films INNER JOIN vertoningen ON films.id = vertoningen.film_id AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ?"
+            cur.execute(sql,[ingave1,ingave2])
+            rijen = cur.fetchall()
+
+            films = [Film.from_dict(rij) for rij in rijen]
+            return films
 
     def film_by_titel(self, titel):
         with dbconn() as cur:
@@ -161,8 +172,19 @@ class Datamanager:
     def vertoningen_filmId_uur(self,film,uur):
         with dbconn() as cur:
             ingave = f"%{uur}%"
-            sql = "SELECT * FROM vertoningen INNER JOIN films ON vertoningen.film_id = films.id WHERE films.id = ? AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ? "
+            sql = "SELECT * FROM vertoningen INNER JOIN films ON vertoningen.film_id = films.id WHERE films.id = ? AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ?"
             cur.execute(sql, [film.id,ingave])
+            rijen = cur.fetchall()
+
+            vertoningen = [Vertoning.from_dict(rij) for rij in rijen]
+            return vertoningen
+    
+    def vertoningen_filmId_uren(self,film,uur1,uur2):
+        with dbconn() as cur:
+            ingave1 = f"%{uur1}%"
+            ingave2 = f"%{uur2}%"
+            sql = "SELECT * FROM vertoningen INNER JOIN films ON vertoningen.film_id = films.id WHERE films.id = ? AND date(vertoningen.afspeelmoment) = date('now') AND vertoningen.afspeelmoment LIKE ? OR vertoningen.afspeelmoment LIKE ?"
+            cur.execute(sql, [film.id,ingave1,ingave2])
             rijen = cur.fetchall()
 
             vertoningen = [Vertoning.from_dict(rij) for rij in rijen]

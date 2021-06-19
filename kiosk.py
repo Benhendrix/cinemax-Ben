@@ -32,7 +32,7 @@ layout_beschrijving = [
     [gui.Text("Kinderen:",size=(15, 1)),gui.Text("",size=(40,1),key="-kinderen-")],
     [gui.Text("Genres:",size=(15, 1)),gui.Text("",size=(40,1),key="-genres-")],
     [gui.Text("Speelduur:",size=(15, 1)),gui.Text("",size=(40,1),key="-speelduur-")],
-    [gui.Text("Omschrijving:",size=(15, 5)),gui.Text("",size=(40,5),key="-omschrijving-")]
+    [gui.Text("Omschrijving:",size=(15, 10)),gui.Text("",size=(40,10),key="-omschrijving-")]
     ]),
     gui.Column([
     [gui.Text("Zaal:",size=(15, 1)),gui.Text("",size=(40,1),key="-zaal-")],
@@ -42,15 +42,25 @@ layout_beschrijving = [
     ])
 ]
 
-
+layout_ticket_beschrijving = [
+    gui.Column([]),
+    gui.Column([
+    [gui.Text("Prijs per kind:",size=(20, 1)),gui.Text("",size=(15,1),key="-kind-")],
+    [gui.Text("Prijs per volwassenen:",size=(20, 1)),gui.Text("",size=(15,1),key="-volwassen-")],
+    [gui.Text("Geef het aantal tickets voor de kinderen in:",size=(30, None)),gui.Input(key="-kindaantal-", size=(4, None),enable_events=True)],
+    [gui.Text("Geef het aantal tickets voor de volwassenen in:",size=(30, None)),gui.Input(key="-volwassenaantal-", size=(4, None),enable_events=True)],
+    [gui.Button("Toon totaal bedrag", key="-b_totaal-"),gui.Text("", size=(30, None), key="-totaal-", font="bold")]
+    ])
+]
 
 layout = [
     layout_titel,
     layout_listbox,
-    layout_beschrijving
+    layout_beschrijving,
+    layout_ticket_beschrijving
 ]
 
-window = gui.Window("CINEMAX", layout, size=(1400, 800),font= "Helvetica 16", element_justification="c")
+window = gui.Window("CINEMAX", layout, size=(1400, 800),font= "Helvetica 14", element_justification="c")
 
 while True:
     event, values = window.read()
@@ -73,11 +83,23 @@ while True:
 
     if event == "-vertoningen-":
         vertoning = values["-vertoningen-"][0]
-
         window["-zaal-"].update(value=vertoning.zaal_str)
         window["-afspeelmoment-"].update(value=vertoning.afspeelmoment_uur)
         window["-pauze-"].update(value=vertoning.pauze_str)
         window["-3D-"].update(value=vertoning.dried_str)
+    
+    if event == "-kindtotaal-" or event == "-volwassentotaal-" or event == "-b_totaal-":
+        kindtotaal = values.get("-kindaantal-") or ""
+        if kindtotaal =="":
+            kindtotaal = 0
+        volwasssentotaal = values.get("-volwassenaantal-") or ""
+        if volwasssentotaal =="":
+            volwasssentotaal = 0
 
- 
+        totaalprijs = float(kindtotaal)*5.00 + float(volwasssentotaal)*7.00
+        
+        totaalprijs_flt = format(totaalprijs,".2f")
+        
+        window["-totaal-"].update(value=f"{totaalprijs_flt} €")
+    
 window.close()
