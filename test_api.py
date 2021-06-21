@@ -15,22 +15,23 @@ while True:
     if vandaag_uur <= 10:
         if vandaag_min <= 45:
             uur = "11:00:00"
-        else:
             break
     if vandaag_uur <= 13:
         if vandaag_min <= 45:
             uur = "14:00:00"
-        else:
             break
     if vandaag_uur <= 16:
-        uur = "17:00:00"
-        break
+        if vandaag_min <= 45:
+            uur = "17:00:00"
+            break
     if vandaag_uur <= 19:
-        uur = "20:00:00"
-        break
+        if vandaag_min <= 45:
+            uur = "20:00:00"
+            break
     if vandaag_uur <= 22:
-        uur = "23:00:00"
-        break
+        if vandaag_min <= 45:
+            uur = "23:00:00"
+            break
     if vandaag_uur > 23:
         uur = "11:00:00"
     else:

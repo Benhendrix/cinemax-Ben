@@ -14,6 +14,7 @@ vandaag_uur_str = vandaag.strftime("%H")
 vandaag_min_str = vandaag.strftime("%M")
 vandaag_uur = int(vandaag_uur_str)
 vandaag_min = int(vandaag_min_str)
+# Invullen van het uur.
 while True:
     if vandaag_uur <= 10:
         uur = "11:00:00"
@@ -35,11 +36,10 @@ while True:
     else:
         continue
 films = dm.films_vandaag_uur(uur)
-
+# Gui thema
 gui.theme('DarkTeal10')
 
-
-
+# Layout's
 layout_titel = [gui.Text("Welkom bij Cinemax.",size=(20, 1),font= "Helvetica 32")]
 
 layout_listbox = [
@@ -100,14 +100,21 @@ while True:
         vertoningen = dm.vertoningen_filmId_uur(geselecteerde_film,uur)
 
         window["-vertoningen-"].update(values=vertoningen)
-     
-    if event =="-films-":
+        # Aantal terug op 0 zetten.
+        window["-totaal-"].update(value="0.00 €")
+        window["-volwassentotaal-"].update(value=0)
+        window["-b_aankoop-"].update(disabled=True)
+        # Tickets toelaten of niet voor kinderen.
         film = values["-films-"][0]
         if film.kinderen == 0:
             window["-kindtotaal-"].update(disabled=True)
+            window["-kindtotaal-"].update(value=0)
         if film.kinderen == 1:
             window["-kindtotaal-"].update(disabled=False)
 
+    if event =="-films-":
+        
+        film = values["-films-"][0]
         window["-titel-"].update(value=film.titel_str)
         window["-kinderen-"].update(value=film.kinderen_str)
         window["-genres-"].update(value=film.genre_str)
@@ -116,6 +123,7 @@ while True:
         window["-aankoop-"].update(value=f"{film.titel}")
 
     if event == "-vertoningen-":
+  
         vertoning = values["-vertoningen-"][0]
         window["-zaal-"].update(value=vertoning.zaal_str)
         window["-afspeelmoment-"].update(value=vertoning.afspeelmoment_uur)
@@ -140,5 +148,5 @@ while True:
             window["-b_aankoop-"].update(disabled=True)
         else:
             window["-b_aankoop-"].update(disabled=False)
-            
+ 
 window.close()
