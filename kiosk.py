@@ -1,4 +1,5 @@
 from datetime import datetime
+from tkinter.constants import DISABLED
 from models.ticket import Ticket
 from sys import version
 import PySimpleGUI as gui
@@ -8,12 +9,36 @@ from models.vertoning import Vertoning
 # Documentatie: https://pysimplegui.readthedocs.io/en/latest/call%20reference/
 
 dm = Datamanager()
-uur ="20:00:00"
+vandaag = datetime.now()
+vandaag_uur_str = vandaag.strftime("%H")
+vandaag_min_str = vandaag.strftime("%M")
+vandaag_uur = int(vandaag_uur_str)
+vandaag_min = int(vandaag_min_str)
+while True:
+    if vandaag_uur <= 10:
+        uur = "11:00:00"
+        break
+    if vandaag_uur <= 13:
+        uur = "14:00:00"
+        break
+    if vandaag_uur <= 16:
+        uur = "17:00:00"
+        break
+    if vandaag_uur <= 19:
+        uur = "20:00:00"
+        break
+    if vandaag_uur <= 22:
+        uur = "23:00:00"
+        break
+    if vandaag_uur > 23:
+        uur = "11:00:00"
+    else:
+        continue
 films = dm.films_vandaag_uur(uur)
 
-
-
 gui.theme('DarkTeal10')
+
+
 
 layout_titel = [gui.Text("Welkom bij Cinemax.",size=(20, 1),font= "Helvetica 32")]
 
@@ -49,9 +74,9 @@ layout_ticket_beschrijving = [
     gui.Column([
         [gui.Text("Prijs per kind:",size=(30, 1)),gui.Text("5.00 €",size=(15,1),key="-kind-")],
         [gui.Text("Prijs per volwassenen:",size=(30, 1)),gui.Text("7.00 € ",size=(15,1),key="-volwassen-")],
-        [gui.Text("Geef het aantal tickets voor de kinderen in:",size=(30, None)),gui.Input(key="-kindaantal-", size=(4, None),enable_events=True)],
-        [gui.Text("Geef het aantal tickets voor de volwassenen in:",size=(30, None)),gui.Input(key="-volwassenaantal-", size=(4, None),enable_events=True)],
-        [gui.Checkbox("Toon totaal bedrag",key="-c_totaal-",enable_events=True),gui.Text("", size=(30, None), key="-totaal-", font="bold")]
+        [gui.Text("Geef het aantal tickets voor de kinderen in:",size=(30, None)),gui.Spin(values=[i for i in range(999)],initial_value=0,disabled=False,key="-kindtotaal-", size=(4, None),enable_events=True)],
+        [gui.Text("Geef het aantal tickets voor de volwassenen in:",size=(30, None)),gui.Spin(values=[i for i in range(999)],initial_value=0,key="-volwassentotaal-", size=(4, None),enable_events=True)],
+        [gui.Text("Toon totaal bedrag",size=(30,1)),gui.Text("", size=(30, None), key="-totaal-", font="bold")]
     ]),
         [gui.Button("Aankoop doen?",disabled=True, key="-b_aankoop-"),gui.Text("", size=(37, None), key="-aankoop-", font="bold")]
 ]
@@ -69,6 +94,7 @@ while True:
     event, values = window.read()
     if event == gui.WIN_CLOSED or event == 'Cancel':
         break
+    
     if event == "-films-":
         geselecteerde_film = values["-films-"][0]
         vertoningen = dm.vertoningen_filmId_uur(geselecteerde_film,uur)
@@ -77,6 +103,10 @@ while True:
      
     if event =="-films-":
         film = values["-films-"][0]
+        if film.kinderen == 0:
+            window["-kindtotaal-"].update(disabled=True)
+        if film.kinderen == 1:
+            window["-kindtotaal-"].update(disabled=False)
 
         window["-titel-"].update(value=film.titel_str)
         window["-kinderen-"].update(value=film.kinderen_str)
@@ -93,22 +123,22 @@ while True:
         window["-3D-"].update(value=vertoning.dried_str)
         window["-aankoop-"].update(value=f"{film.titel}, {vertoning.zaal}, {vertoning.afspeelmoment_uur}")
     
-    if event == "-kindtotaal-" or event == "-volwassentotaal-" or event == "-c_totaal-":
-        kindtotaal = values.get("-kindaantal-") or ""
+    if event == "-kindtotaal-" or event == "-volwassentotaal-":
+        kindtotaal = values.get("-kindtotaal-") or ""
         if kindtotaal == "":
             kindtotaal = 0
-        volwasssentotaal = values.get("-volwassenaantal-") or ""
+        volwasssentotaal = values.get("-volwassentotaal-") or ""
         if volwasssentotaal == "":
             volwasssentotaal = 0
 
-        totaalprijs = float(kindtotaal)*5.00 + float(volwasssentotaal)*7.00
+        totaalprijs = int(kindtotaal)*5.00 + int(volwasssentotaal)*7.00
         totaalprijs_flt = format(totaalprijs,".2f")
     
         window["-totaal-"].update(value=f"{totaalprijs_flt} €")
         window["-aankoop-"].update(value=f"{film.titel}, {vertoning.zaal}, {vertoning.afspeelmoment_uur}, {totaalprijs_flt} €")
-        if not values["-c_totaal-"]:
+        if totaalprijs == 0:
             window["-b_aankoop-"].update(disabled=True)
         else:
             window["-b_aankoop-"].update(disabled=False)
-
+            
 window.close()

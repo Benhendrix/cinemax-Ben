@@ -57,6 +57,9 @@ class Film:
      # Dundermethodes 
     def __str__(self):
         return self.titel
+    
+    def __int__(self):
+        return self.kinderen
 
     # Het maken van de instanties van de films.
     @classmethod
