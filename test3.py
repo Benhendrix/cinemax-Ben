@@ -5,11 +5,13 @@ import PySimpleGUI as gui
 from db.datamanager import Datamanager
 from models.film import Film
 from models.vertoning import Vertoning
+from models.validatie import valideer_getal
 # Documentatie: https://pysimplegui.readthedocs.io/en/latest/call%20reference/
 
 dm = Datamanager()
 uur ="20:00:00"
 films = dm.films_vandaag_uur(uur)
+
 
 
 gui.theme('DarkTeal10')
@@ -50,7 +52,7 @@ layout_ticket_beschrijving = [
         [gui.Text("Prijs per volwassenen:",size=(30, 1)),gui.Text("7.00 € ",size=(15,1),key="-volwassen-")],
         [gui.Text("Geef het aantal tickets voor de kinderen in:",size=(30, None)),gui.Input(key="-kindaantal-", size=(4, None),enable_events=True)],
         [gui.Text("Geef het aantal tickets voor de volwassenen in:",size=(30, None)),gui.Input(key="-volwassenaantal-", size=(4, None),enable_events=True)],
-        [gui.Button("Toon totaal bedrag",key="-b_totaal-",enable_events=True),gui.Text("", size=(30, None), key="-totaal-", font="bold")]
+        [gui.Checkbox("TOTAAL BEDRAG",key="-c_totaal-",enable_events=True),gui.Text("", size=(30, None), key="-totaal-", font="bold")]
     ]),
         [gui.Button("Aankoop doen?",disabled=True, key="-b_aankoop-"),gui.Text("", size=(37, None), key="-aankoop-", font="bold")]
 ]
@@ -68,6 +70,7 @@ while True:
     event, values = window.read()
     if event == gui.WIN_CLOSED or event == 'Cancel':
         break
+
     if event == "-films-":
         geselecteerde_film = values["-films-"][0]
         vertoningen = dm.vertoningen_filmId_uur(geselecteerde_film,uur)
@@ -92,7 +95,7 @@ while True:
         window["-3D-"].update(value=vertoning.dried_str)
         window["-aankoop-"].update(value=f"{film.titel}, {vertoning.zaal}, {vertoning.afspeelmoment_uur}")
     
-    if event == "-kindtotaal-" or event == "-volwassentotaal-" or event == "-b_totaal-":
+    if event == "-kindtotaal-" or event == "-volwassentotaal-" or event == "-c_totaal-":
         kindtotaal = values.get("-kindaantal-") or ""
         if kindtotaal == "":
             kindtotaal = 0
@@ -105,38 +108,33 @@ while True:
     
         window["-totaal-"].update(value=f"{totaalprijs_flt} €")
         window["-aankoop-"].update(value=f"{film.titel}, {vertoning.zaal}, {vertoning.afspeelmoment_uur}, {totaalprijs_flt} €")
-  
-    keys = ["-titel-","-zaal-","-afspeelmoment-","-kindaantal-","-volwassenaantal-","-totaal-"]
+    
+    keys = ["-kindaantal-","-volwassenaantal-","-c_totaal-"]
     if event in keys:
         errors = {}
         for key in keys:
             window[key].set_tooltip("")
-
-        if values["-titel-"] == film.titel_str:
-            window["-titel-"].update(background_color="white")
-        else:
-            window["-titel-"].update(background_color="red")
-            errors["-titel-"] = "Titel is ongeldig formaat."
         
-        if values["-zaal-"] == film.zaal_str:
-            window["-zaal-"].update(background_color="white")
+        if valideer_getal(values["-kindaantal-"]):
+            window["-kindaantal-"].update(background_color="white")
         else:
-            window["-zaal-"].update(background_color="red")
-            errors["-zaal-"] = "Zaal is ongeldig formaat."
+            window["-kindaantal-"].update(background_color="red")
+            errors["-kindaantal-"] = "Geen geldige input!"
         
-        if values["-afspeelmoment-"] == vertoning.afspeelmoment_uur:
-            window["-afspeelmoment-"].update(background_color="white")
+        if valideer_getal(values=["-volwassenaantal-"]):
+            window["-volwassenaantal-"].update(background_color="white")
         else:
-            window["-afspeelmoment-"].update(background_color="red")
-            errors["-afspeelmoment-"] = "Afspeelmoment is ongeldig formaat."
+            window["-volwassenaantal-"].update(background_color="red")
+            errors["-volwassenaantal-"] = "Geen geldige input!"
         
-        if values["-totaal-"] == totaalprijs_flt:
-            window["-totaal-"].update(background_color="white")
+        if not values["-c_totaal-"]:
+            errors["-c_totaal-"] = "Klik op TOTAAL BEDRAG."
+        
+        for key in errors:
+              window[key].set_tooltip(errors[key])
+        
+        if not errors:
+            window["-b_aankoop-"].update(disabled=False)
         else:
-            window["-totaal-"].update(background_color="red")
-            errors["-totaal-"] = "Het totaal is klopt niet."
-        
-  
-            
-
+            window["-b_aankoop-"].update(disabled=True)
 window.close()
