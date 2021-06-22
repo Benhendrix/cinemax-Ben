@@ -49,7 +49,7 @@ class Vertoning:
 
    # Dundermethodes
     def __str__(self):
-        return f"{self.zaal}"
+        return f"{self.zaal}:{self.afspeelmoment_uur}"
     
     # Voor de datum te krijgen van een vertoning
     @classmethod
